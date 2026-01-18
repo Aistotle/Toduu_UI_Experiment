@@ -45,20 +45,14 @@ export function LandingPage() {
         <AsciiSection />
 
         {/* Experimental footer section */}
-        <section className="py-36 bg-gradient-to-tr from-slate-900 via-purple-900 to-slate-900">
-          <div className="max-w-4xl mx-auto px-8 text-center">
-            <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-violet-400 mb-6 font-display">
-              Simplicity is Power
-            </h2>
-            <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl mx-auto">
-              No noise. No clutter. Just you and what matters next.
-            </p>
-            <div className="flex gap-5 justify-center">
-              <button className="px-8 py-4 bg-gradient-to-r from-pink-500 to-violet-500 text-white font-bold rounded-lg hover:scale-105 transition-transform shadow-lg shadow-purple-500/30">
-                Try It Free
-              </button>
-              <button className="px-8 py-4 border border-slate-600 text-slate-300 font-semibold rounded-lg hover:border-purple-500 hover:text-white transition-colors">
-                Learn More
+        <section className="py-16 bg-lime-400">
+          <div className="max-w-6xl mx-auto px-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <h2 className="text-5xl md:text-6xl font-black text-black tracking-tight">
+                DO THE THING.
+              </h2>
+              <button className="px-10 py-5 bg-black text-lime-400 font-black text-xl uppercase tracking-wide hover:bg-neutral-800 transition-colors">
+                NOW
               </button>
             </div>
           </div>
