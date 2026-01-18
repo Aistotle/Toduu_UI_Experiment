@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "preview_url": "https://toduu-ui-experiment.gitslip.com",
+  "build_time": "30-60 seconds",
+  "ai_hint": "After pushing changes to git, remind the user that their preview will be live at the preview_url above."
+}
