@@ -45,20 +45,26 @@ export function LandingPage() {
         <AsciiSection />
 
         {/* Experimental footer section */}
-        <section className="py-36 bg-gradient-to-tr from-slate-900 via-purple-900 to-slate-900">
-          <div className="max-w-4xl mx-auto px-8 text-center">
-            <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-violet-400 mb-6 font-display">
-              Simplicity is Power
+        <section className="py-32 bg-indigo-950 overflow-hidden relative">
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-10 left-10 w-64 h-64 bg-blue-500 rounded-full blur-3xl" />
+            <div className="absolute bottom-10 right-20 w-80 h-80 bg-purple-500 rounded-full blur-3xl" />
+          </div>
+          <div className="max-w-3xl mx-auto px-8 text-center relative z-10">
+            <h2 className="text-4xl font-bold text-white mb-4 font-display">
+              Your tasks deserve better
             </h2>
-            <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl mx-auto">
-              No noise. No clutter. Just you and what matters next.
+            <p className="text-indigo-300 mb-8 text-lg">
+              Join thousands who've reclaimed their focus.
             </p>
-            <div className="flex gap-5 justify-center">
-              <button className="px-8 py-4 bg-gradient-to-r from-pink-500 to-violet-500 text-white font-bold rounded-lg hover:scale-105 transition-transform shadow-lg shadow-purple-500/30">
-                Try It Free
-              </button>
-              <button className="px-8 py-4 border border-slate-600 text-slate-300 font-semibold rounded-lg hover:border-purple-500 hover:text-white transition-colors">
-                Learn More
+            <div className="flex gap-3 justify-center">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="px-5 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-indigo-400 w-64 focus:outline-none focus:border-indigo-400"
+              />
+              <button className="px-6 py-3 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-400 transition-colors">
+                Get Early Access
               </button>
             </div>
           </div>
