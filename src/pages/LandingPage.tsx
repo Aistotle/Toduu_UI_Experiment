@@ -45,20 +45,20 @@ export function LandingPage() {
         <AsciiSection />
 
         {/* Experimental footer section */}
-        <section className="py-36 bg-gradient-to-tr from-slate-900 via-purple-900 to-slate-900">
-          <div className="max-w-4xl mx-auto px-8 text-center">
-            <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-violet-400 mb-6 font-display">
-              Simplicity is Power
+        <section className="py-32 bg-stone-100">
+          <div className="max-w-3xl mx-auto px-8 text-center">
+            <h2 className="text-4xl font-light text-stone-800 mb-4 font-display tracking-tight">
+              Less, but better.
             </h2>
-            <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl mx-auto">
-              No noise. No clutter. Just you and what matters next.
+            <p className="text-lg text-stone-500 mb-8 leading-relaxed">
+              Inspired by the calm of finishing. Built for people who do.
             </p>
-            <div className="flex gap-5 justify-center">
-              <button className="px-8 py-4 bg-gradient-to-r from-pink-500 to-violet-500 text-white font-bold rounded-lg hover:scale-105 transition-transform shadow-lg shadow-purple-500/30">
-                Try It Free
+            <div className="flex gap-4 justify-center">
+              <button className="px-6 py-3 bg-stone-900 text-stone-100 font-medium rounded hover:bg-stone-800 transition-colors">
+                Get Started
               </button>
-              <button className="px-8 py-4 border border-slate-600 text-slate-300 font-semibold rounded-lg hover:border-purple-500 hover:text-white transition-colors">
-                Learn More
+              <button className="px-6 py-3 text-stone-600 font-medium hover:text-stone-900 transition-colors">
+                About Us
               </button>
             </div>
           </div>
