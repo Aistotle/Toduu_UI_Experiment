@@ -45,21 +45,20 @@ export function LandingPage() {
         <AsciiSection />
 
         {/* Experimental footer section */}
-        <section className="py-32 bg-gradient-to-b from-fuchsia-500 via-violet-600 to-indigo-900">
+        <section className="py-32 bg-gradient-to-b from-amber-400 via-orange-500 to-rose-600">
           <div className="max-w-4xl mx-auto px-8 text-center">
-            <h2 className="text-5xl font-bold text-white mb-6 font-display">
-              Something New is Coming
+            <h2 className="text-5xl font-bold text-white mb-6 font-display drop-shadow-lg">
+              Built for Momentum
             </h2>
-            <p className="text-xl text-white/80 mb-8 leading-relaxed">
-              We're experimenting with radical new ways to help you focus on what matters.
-              This is just the beginning.
+            <p className="text-xl text-white/90 mb-8 leading-relaxed">
+              Every task completed builds on the last. Watch your progress compound.
             </p>
             <div className="flex gap-4 justify-center">
-              <button className="px-8 py-4 bg-white text-violet-700 font-semibold rounded-full hover:scale-105 transition-transform">
-                Join the Experiment
+              <button className="px-8 py-4 bg-white text-orange-600 font-semibold rounded-full hover:scale-105 transition-transform shadow-lg">
+                Start Building
               </button>
-              <button className="px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-full hover:bg-white/10 transition-colors">
-                Learn More
+              <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white/20 transition-colors">
+                See How It Works
               </button>
             </div>
           </div>
