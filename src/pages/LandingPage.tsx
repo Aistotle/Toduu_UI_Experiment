@@ -45,21 +45,26 @@ export function LandingPage() {
         <AsciiSection />
 
         {/* Experimental footer section */}
-        <section className="py-36 bg-gradient-to-tr from-slate-900 via-purple-900 to-slate-900">
-          <div className="max-w-4xl mx-auto px-8 text-center">
-            <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-violet-400 mb-6 font-display">
-              Simplicity is Power
-            </h2>
-            <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl mx-auto">
-              No noise. No clutter. Just you and what matters next.
-            </p>
-            <div className="flex gap-5 justify-center">
-              <button className="px-8 py-4 bg-gradient-to-r from-pink-500 to-violet-500 text-white font-bold rounded-lg hover:scale-105 transition-transform shadow-lg shadow-purple-500/30">
-                Try It Free
-              </button>
-              <button className="px-8 py-4 border border-slate-600 text-slate-300 font-semibold rounded-lg hover:border-purple-500 hover:text-white transition-colors">
-                Learn More
-              </button>
+        <section className="py-24 bg-white border-t-4 border-red-500">
+          <div className="max-w-4xl mx-auto px-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+              <div>
+                <span className="text-red-500 font-mono text-sm uppercase tracking-wider">Version 2.0</span>
+                <h2 className="text-5xl font-black text-neutral-900 mt-2 mb-4 leading-tight">
+                  Brutally<br />Simple.
+                </h2>
+                <p className="text-neutral-500 text-lg">
+                  No features you don't need. No complexity you didn't ask for.
+                </p>
+              </div>
+              <div className="flex flex-col gap-4">
+                <button className="w-full py-4 bg-red-500 text-white font-bold text-lg hover:bg-red-600 transition-colors">
+                  Download Free
+                </button>
+                <button className="w-full py-4 border-2 border-neutral-900 text-neutral-900 font-bold text-lg hover:bg-neutral-900 hover:text-white transition-colors">
+                  View Source
+                </button>
+              </div>
             </div>
           </div>
         </section>
