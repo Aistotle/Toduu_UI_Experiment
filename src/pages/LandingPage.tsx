@@ -44,9 +44,25 @@ export function LandingPage() {
 
         <AsciiSection />
 
-        {/* Temporary test section */}
-        <section className="py-24 bg-lime-300">
-          <div className="text-center text-ink/60 text-sm">Test section for deployment</div>
+        {/* Experimental footer section */}
+        <section className="py-32 bg-gradient-to-b from-fuchsia-500 via-violet-600 to-indigo-900">
+          <div className="max-w-4xl mx-auto px-8 text-center">
+            <h2 className="text-5xl font-bold text-white mb-6 font-display">
+              Something New is Coming
+            </h2>
+            <p className="text-xl text-white/80 mb-8 leading-relaxed">
+              We're experimenting with radical new ways to help you focus on what matters.
+              This is just the beginning.
+            </p>
+            <div className="flex gap-4 justify-center">
+              <button className="px-8 py-4 bg-white text-violet-700 font-semibold rounded-full hover:scale-105 transition-transform">
+                Join the Experiment
+              </button>
+              <button className="px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-full hover:bg-white/10 transition-colors">
+                Learn More
+              </button>
+            </div>
+          </div>
         </section>
       </main>
     </>

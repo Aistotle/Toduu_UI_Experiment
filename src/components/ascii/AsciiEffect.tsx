@@ -259,7 +259,7 @@ class AsciiEffectImpl extends Effect {
 
     super("AsciiEffect", fragmentShader, {
       blendFunction: BlendFunction.NORMAL,
-      uniforms: new Map([
+      uniforms: new Map<string, Uniform>([
         ["cellSize", new Uniform(cellSize)],
         ["invert", new Uniform(invert)],
         ["colorMode", new Uniform(color)],
