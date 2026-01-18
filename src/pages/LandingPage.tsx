@@ -45,20 +45,20 @@ export function LandingPage() {
         <AsciiSection />
 
         {/* Experimental footer section */}
-        <section className="py-40 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600">
+        <section className="py-36 bg-gradient-to-tr from-slate-900 via-purple-900 to-slate-900">
           <div className="max-w-4xl mx-auto px-8 text-center">
-            <h2 className="text-6xl font-bold text-white mb-8 font-display drop-shadow-lg">
-              Flow State Awaits
+            <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-violet-400 mb-6 font-display">
+              Simplicity is Power
             </h2>
-            <p className="text-2xl text-white/90 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Clear your mind. One task at a time. Find your rhythm.
+            <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl mx-auto">
+              No noise. No clutter. Just you and what matters next.
             </p>
-            <div className="flex gap-6 justify-center">
-              <button className="px-10 py-5 bg-white text-teal-600 font-bold rounded-full hover:scale-105 transition-transform shadow-xl text-lg">
-                Enter Flow
+            <div className="flex gap-5 justify-center">
+              <button className="px-8 py-4 bg-gradient-to-r from-pink-500 to-violet-500 text-white font-bold rounded-lg hover:scale-105 transition-transform shadow-lg shadow-purple-500/30">
+                Try It Free
               </button>
-              <button className="px-10 py-5 border-2 border-white text-white font-bold rounded-full hover:bg-white/20 transition-colors text-lg">
-                Watch Demo
+              <button className="px-8 py-4 border border-slate-600 text-slate-300 font-semibold rounded-lg hover:border-purple-500 hover:text-white transition-colors">
+                Learn More
               </button>
             </div>
           </div>
