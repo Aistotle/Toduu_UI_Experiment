@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "mothership.schema.json",
+  "title": "Mothership",
+  "description": "Aggregated metadata from codebase comments for the Two-Layer Paradigm",
+  "type": "object",
+  "required": ["version", "generatedAt", "modules", "graph", "summary"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Schema reference"
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO timestamp of generation"
+    },
+    "generatedBy": {
+      "type": "string",
+      "description": "Script that generated this file"
+    },
+    "codebaseHash": {
+      "type": "string",
+      "description": "Git commit hash at generation time"
+    },
+    "modules": {
+      "type": "object",
+      "description": "Map of module ID to module metadata",
+      "additionalProperties": {
+        "$ref": "#/definitions/Module"
+      }
+    },
+    "graph": {
+      "type": "object",
+      "description": "Dependency graph",
+      "required": ["nodes", "edges"],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "All module IDs"
+        },
+        "edges": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/GraphEdge" },
+          "description": "Dependency relationships"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "Aggregate statistics",
+      "required": ["totalModules", "totalFunctions", "totalTypes", "coverageByFeature"],
+      "properties": {
+        "totalModules": { "type": "integer", "minimum": 0 },
+        "totalFunctions": { "type": "integer", "minimum": 0 },
+        "totalTypes": { "type": "integer", "minimum": 0 },
+        "coverageByFeature": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/CoverageStats"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Module": {
+      "type": "object",
+      "required": ["file"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "Relative path to source file"
+        },
+        "moduleId": {
+          "type": "string",
+          "description": "Explicit module ID from @module tag"
+        },
+        "intent": {
+          "type": "string",
+          "description": "One-line semantic goal from @intent"
+        },
+        "purpose": {
+          "type": "string",
+          "description": "Extended explanation from @purpose"
+        },
+        "human": {
+          "type": "string",
+          "description": "Plain English summary for humans"
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Constraint" }
+        },
+        "links": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "dependsOn": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "dependedBy": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "functions": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Function" }
+        },
+        "types": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Type" }
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Constraint": {
+      "type": "object",
+      "required": ["rule"],
+      "properties": {
+        "rule": {
+          "type": "string",
+          "description": "Constraint identifier or description"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why this constraint exists"
+        }
+      }
+    },
+    "Function": {
+      "type": "object",
+      "required": ["name", "line"],
+      "properties": {
+        "name": { "type": "string" },
+        "intent": { "type": "string" },
+        "human": { "type": "string" },
+        "constraints": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Constraint" }
+        },
+        "params": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "human": { "type": "string" }
+            }
+          }
+        },
+        "returns": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string" },
+            "human": { "type": "string" }
+          }
+        },
+        "line": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "Type": {
+      "type": "object",
+      "required": ["name", "kind", "line"],
+      "properties": {
+        "name": { "type": "string" },
+        "intent": { "type": "string" },
+        "human": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": ["interface", "type", "enum", "class"]
+        },
+        "line": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "GraphEdge": {
+      "type": "object",
+      "required": ["from", "to"],
+      "properties": {
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["imports", "calls", "extends"],
+          "default": "imports"
+        }
+      }
+    },
+    "CoverageStats": {
+      "type": "object",
+      "required": ["documented", "total", "percent"],
+      "properties": {
+        "documented": { "type": "integer", "minimum": 0 },
+        "total": { "type": "integer", "minimum": 0 },
+        "percent": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    }
+  }
+}

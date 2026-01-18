@@ -1,0 +1,252 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Art & Craft of Expressive Typography</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #fdfcfc;
+      --ink: #111;
+      --accent: #ff4d4d;
+      --mute: #888;
+      --line: #e5e5e5;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    }
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .step {
+      opacity: 0;
+      transform: translateY(2rem);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+    .step.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .huge {
+      font-size: clamp(4rem, 12vw, 12rem);
+      line-height: .9;
+      letter-spacing: -.04em;
+      font-weight: 900;
+    }
+    .micro {
+      font-size: .8rem;
+      line-height: 1.4;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .weight-demo span {
+      display: inline-block;
+      transition: all .3s ease;
+    }
+    .weight-demo span:hover {
+      color: var(--accent);
+      transform: scale(1.05);
+    }
+    .rhythm-line {
+      max-width: 28ch;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+    .track-demo {
+      font-size: 3rem;
+      font-weight: 700;
+      transition: letter-spacing .6s ease;
+    }
+    .voice-card {
+      border: 1px solid var(--line);
+      padding: 2rem;
+      border-radius: .75rem;
+      width: 100%;
+      max-width: 32rem;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,.04);
+      transition: transform .3s ease;
+    }
+    .voice-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0,0,0,.06);
+    }
+    .silence-box {
+      width: 100%;
+      max-width: 42rem;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background: #fff;
+      position: relative;
+    }
+    .silence-box p {
+      font-size: 1.5rem;
+      letter-spacing: .08em;
+      color: var(--mute);
+      transition: opacity 1s ease;
+    }
+    .silence-box:hover p {
+      opacity: 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Intro -->
+<section id="intro">
+  <div class="step text-center">
+    <p class="micro mb-4">An Essay on Expressive Typography</p>
+    <h1 class="huge">The Art &amp; Craft<br>of Expressive<br>Typography</h1>
+    <p class="mt-8 text-lg max-w-xl mx-auto text-neutral-600">
+      Scroll to explore how scale, weight, rhythm, spacing, voice, and silence shape meaning.
+    </p>
+  </div>
+</section>
+
+<!-- Scale -->
+<section id="scale">
+  <div class="step text-center">
+    <p class="micro mb-2">01 / Scale</p>
+    <h2 class="huge">Size is a shout.</h2>
+    <p class="mt-6 max-w-2xl text-neutral-600">
+      Larger type commands attention before a single word is read. It establishes hierarchy and emotional tone.
+    </p>
+  </div>
+</section>
+
+<!-- Weight -->
+<section id="weight">
+  <div class="step text-center">
+    <p class="micro mb-4">02 / Weight</p>
+    <div class="weight-demo text-5xl md:text-7xl font-black space-x-2">
+      <span>l</span><span>i</span><span>g</span><span>h</span><span>t</span>
+      <span class="font-light">light</span>
+      <span class="font-normal">normal</span>
+      <span class="font-semibold">bold</span>
+      <span class="font-black">black</span>
+    </div>
+    <p class="mt-6 max-w-2xl text-neutral-600">
+      Weight modulates voice—from whisper to roar—without changing words.
+    </p>
+  </div>
+</section>
+
+<!-- Rhythm -->
+<section id="rhythm">
+  <div class="step text-center">
+    <p class="micro mb-4">03 / Rhythm & Line Length</p>
+    <p class="rhythm-line">
+      Lines too long tire the eye. Too short break the rhythm. Around 45–75 characters per line keeps readers in flow.
+    </p>
+    <p class="mt-6 max-w-2xl text-neutral-600">
+      Measure controls pacing, like breath in poetry.
+    </p>
+  </div>
+</section>
+
+<!-- Spacing -->
+<section id="spacing">
+  <div class="step text-center">
+    <p class="micro mb-4">04 / Spacing</p>
+    <p class="track-demo" id="track">TRACKING</p>
+    <input type="range" min="-.1" max=".4" step=".02" value="0" id="trackSlider"
+           class="mt-6 w-64 accent-red-500">
+    <p class="mt-6 max-w-2xl text-neutral-600">
+      Letter-spacing shifts texture: tight feels urgent, loose feels airy.
+    </p>
+  </div>
+</section>
+
+<!-- Voice -->
+<section id="voice">
+  <div class="step w-full">
+    <p class="micro text-center mb-8">05 / Typeface = Voice</p>
+    <div class="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+      <div class="voice-card font-serif italic text-xl">
+        “I speak with tradition and gravitas.”
+      </div>
+      <div class="voice-card font-mono text-xl">
+        “I speak like code, precise and mechanical.”
+      </div>
+      <div class="voice-card font-sans font-black text-xl">
+        “I speak loud, modern, and direct.”
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Silence -->
+<section id="silence">
+  <div class="step">
+    <p class="micro mb-8">06 / Silence & Negative Space</p>
+    <div class="silence-box">
+      <p>Hover to feel silence.</p>
+    </div>
+    <p class="mt-8 max-w-2xl text-neutral-600">
+      Emptiness frames voice. Without pause, there is no music.
+    </p>
+  </div>
+</section>
+
+<!-- Outro -->
+<section id="outro">
+  <div class="step text-center">
+    <h2 class="text-3xl md:text-5xl font-bold">Continue crafting.</h2>
+    <p class="mt-4 text-neutral-600">
+      Every glyph carries emotion. Every space carries intent.
+    </p>
+    <a href="#intro" class="inline-block mt-8 micro border border-neutral-300 px-4 py-2 rounded-full hover:bg-neutral-100">
+      Back to start
+    </a>
+  </div>
+</section>
+
+<script>
+  // Intersection observer for scroll reveals
+  const steps = document.querySelectorAll('.step');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: .25 });
+  steps.forEach(s => io.observe(s));
+
+  // Interactive tracking slider
+  const track = document.getElementById('track');
+  const slider = document.getElementById('trackSlider');
+  slider.addEventListener('input', e => {
+    track.style.letterSpacing = e.target.value + 'em';
+  });
+</script>
+
+</body>
+</html>
+```

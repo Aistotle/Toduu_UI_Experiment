@@ -1,0 +1,484 @@
+index.html
+NOTICE: the sliders are not working as they should. Right now, when we slide, the text INSIDE the slider box changes. It should be the text (both title, subtitle, and body text) next to the slider box that should change. This goes for all of them.
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Art and Craft of Expressive Typography</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: #1e293b;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .serif { font-family: 'Playfair Display', serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+            margin: 4rem 0;
+        }
+        
+        .interactive-demo {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-demo:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scale-demo {
+            font-size: 1rem;
+            transition: font-size 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .weight-demo {
+            font-weight: 300;
+            transition: font-weight 0.6s ease;
+        }
+        
+        .spacing-demo {
+            letter-spacing: normal;
+            line-height: 1.6;
+            transition: all 0.6s ease;
+        }
+        
+        .rhythm-demo {
+            line-height: 1.2;
+            transition: line-height 0.6s ease;
+        }
+        
+        .negative-space-demo {
+            padding: 1rem;
+            transition: padding 0.6s ease;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        
+        @media (max-width: 768px) {
+            .interactive-demo {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        
+        const TypographyEssay = () => {
+            const [activeSection, setActiveSection] = useState(0);
+            const [scaleValue, setScaleValue] = useState(1);
+            const [weightValue, setWeightValue] = useState(300);
+            const [spacingValue, setSpacingValue] = useState(0);
+            const [leadingValue, setLeadingValue] = useState(1.6);
+            const [paddingValue, setPaddingValue] = useState(1);
+            const [selectedTypeface, setSelectedTypeface] = useState('inter');
+            
+            const sectionsRef = useRef([]);
+            const heroRef = useRef();
+            
+            useEffect(() => {
+                gsap.registerPlugin(ScrollTrigger);
+                
+                // Hero animation
+                gsap.timeline()
+                    .from(heroRef.current, { 
+                        opacity: 0, 
+                        y: 50, 
+                        duration: 1.2, 
+                        ease: "power3.out" 
+                    })
+                    .from(".hero-subtitle", { 
+                        opacity: 0, 
+                        y: 30, 
+                        duration: 0.8, 
+                        delay: 0.3 
+                    });
+                
+                // Animate sections on scroll
+                sectionsRef.current.forEach((section, index) => {
+                    if (section) {
+                        gsap.fromTo(section, 
+                            { opacity: 0, y: 100 },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                duration: 1,
+                                ease: "power3.out",
+                                scrollTrigger: {
+                                    trigger: section,
+                                    start: "top 80%",
+                                    end: "bottom 20%",
+                                    onEnter: () => setActiveSection(index),
+                                    onEnterBack: () => setActiveSection(index),
+                                }
+                            }
+                        );
+                    }
+                });
+                
+                // Animate interactive elements
+                gsap.utils.toArray(".fade-in").forEach(element => {
+                    gsap.fromTo(element,
+                        { opacity: 0, y: 20 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            scrollTrigger: {
+                                trigger: element,
+                                start: "top 90%"
+                            }
+                        }
+                    );
+                });
+                
+                gsap.utils.toArray(".slide-in-left").forEach(element => {
+                    gsap.fromTo(element,
+                        { opacity: 0, x: -50 },
+                        {
+                            opacity: 1,
+                            x: 0,
+                            duration: 0.8,
+                            scrollTrigger: {
+                                trigger: element,
+                                start: "top 90%"
+                            }
+                        }
+                    );
+                });
+                
+                gsap.utils.toArray(".slide-in-right").forEach(element => {
+                    gsap.fromTo(element,
+                        { opacity: 0, x: 50 },
+                        {
+                            opacity: 1,
+                            x: 0,
+                            duration: 0.8,
+                            scrollTrigger: {
+                                trigger: element,
+                                start: "top 90%"
+                            }
+                        }
+                    );
+                });
+                
+            }, []);
+            
+            const sections = [
+                {
+                    title: "Scale & Hierarchy",
+                    subtitle: "The Foundation of Visual Order",
+                    description: "Scale creates emphasis and guides the reader's eye through content. Proper hierarchy ensures information is digestible and accessible.",
+                    demo: (
+                        <div className="space-y-6">
+                            <div className="scale-demo serif" style={{ fontSize: `${scaleValue}rem` }}>
+                                Typography is the craft of endowing human language with a durable visual form.
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <span className="text-sm text-slate-600 w-16">Small</span>
+                                <input 
+                                    type="range" 
+                                    min="0.8" 
+                                    max="3" 
+                                    step="0.1" 
+                                    value={scaleValue}
+                                    onChange={(e) => setScaleValue(e.target.value)}
+                                    className="flex-1"
+                                />
+                                <span className="text-sm text-slate-600 w-16">Large</span>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    title: "Weight & Emphasis",
+                    subtitle: "Controlling Visual Impact",
+                    description: "Font weight creates contrast and emphasis. From thin to black, each weight carries different emotional and functional qualities.",
+                    demo: (
+                        <div className="space-y-6">
+                            <div className="weight-demo text-2xl" style={{ fontWeight: weightValue }}>
+                                The right weight speaks before words are read.
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <span className="text-sm text-slate-600 w-16">Light</span>
+                                <input 
+                                    type="range" 
+                                    min="100" 
+                                    max="900" 
+                                    step="100" 
+                                    value={weightValue}
+                                    onChange={(e) => setWeightValue(e.target.value)}
+                                    className="flex-1"
+                                />
+                                <span className="text-sm text-slate-600 w-16">Heavy</span>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    title: "Rhythm & Line Length",
+                    subtitle: "The Musicality of Text",
+                    description: "Line height and length create rhythm and readability. Proper leading ensures comfortable reading flow and visual harmony.",
+                    demo: (
+                        <div className="space-y-6">
+                            <div className="rhythm-demo text-lg max-w-2xl" style={{ lineHeight: leadingValue }}>
+                                Good typography is invisible. It serves the reader by creating a comfortable, effortless reading experience that allows the content to shine through without distraction. The rhythm of text is like music—it flows and breathes with proper spacing.
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <span className="text-sm text-slate-600 w-16">Tight</span>
+                                <input 
+                                    type="range" 
+                                    min="1.0" 
+                                    max="2.5" 
+                                    step="0.1" 
+                                    value={leadingValue}
+                                    onChange={(e) => setLeadingValue(e.target.value)}
+                                    className="flex-1"
+                                />
+                                <span className="text-sm text-slate-600 w-16">Loose</span>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    title: "Spacing & Texture",
+                    subtitle: "The Architecture of Letters",
+                    description: "Letter-spacing (tracking) affects readability and aesthetic appeal. It can make text feel open and airy or tight and intense.",
+                    demo: (
+                        <div className="space-y-6">
+                            <div className="spacing-demo text-xl uppercase" style={{ letterSpacing: `${spacingValue}px` }}>
+                                SPACING CREATES TEXTURE
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <span className="text-sm text-slate-600 w-16">Tight</span>
+                                <input 
+                                    type="range" 
+                                    min="-2" 
+                                    max="8" 
+                                    step="0.5" 
+                                    value={spacingValue}
+                                    onChange={(e) => setSpacingValue(e.target.value)}
+                                    className="flex-1"
+                                />
+                                <span className="text-sm text-slate-600 w-16">Loose</span>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    title: "Typeface & Voice",
+                    subtitle: "The Personality of Text",
+                    description: "Each typeface has its own voice and personality. Serif, sans-serif, and monospace each convey different moods and purposes.",
+                    demo: (
+                        <div className="space-y-6">
+                            <div className={`text-xl ${selectedTypeface === 'inter' ? '' : selectedTypeface === 'serif' ? 'serif' : 'mono'}`}>
+                                {selectedTypeface === 'inter' && "Clean, modern, and approachable—perfect for digital interfaces."}
+                                {selectedTypeface === 'serif' && "Elegant, traditional, and readable—ideal for long-form content."}
+                                {selectedTypeface === 'mono' && "Technical, precise, and distinctive—excellent for code and data."}
+                            </div>
+                            <div className="flex space-x-4">
+                                {['inter', 'serif', 'mono'].map(type => (
+                                    <button
+                                        key={type}
+                                        onClick={() => setSelectedTypeface(type)}
+                                        className={`px-4 py-2 rounded-lg transition-all ${
+                                            selectedTypeface === type 
+                                                ? 'bg-slate-800 text-white' 
+                                                : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                                        }`}
+                                    >
+                                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    title: "Negative Space & Silence",
+                    subtitle: "The Power of What's Not There",
+                    description: "White space is not empty space—it's an active element that creates focus, separation, and breathing room for your content.",
+                    demo: (
+                        <div className="space-y-6">
+                            <div className="negative-space-demo bg-white rounded-lg border" style={{ padding: `${paddingValue}rem` }}>
+                                <div className="text-lg text-center">
+                                    Silence amplifies sound.<br/>
+                                    Space amplifies content.
+                                </div>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <span className="text-sm text-slate-600 w-16">Tight</span>
+                                <input 
+                                    type="range" 
+                                    min="0.5" 
+                                    max="4" 
+                                    step="0.5" 
+                                    value={paddingValue}
+                                    onChange={(e) => setPaddingValue(e.target.value)}
+                                    className="flex-1"
+                                />
+                                <span className="text-sm text-slate-600 w-16">Spacious</span>
+                            </div>
+                        </div>
+                    )
+                }
+            ];
+            
+            return (
+                <div className="min-h-screen">
+                    {/* Hero Section */}
+                    <section className="min-h-screen flex items-center justify-center px-4">
+                        <div className="max-w-4xl mx-auto text-center">
+                            <h1 ref={heroRef} className="text-6xl md:text-8xl font-light serif gradient-text mb-6">
+                                The Art and Craft of<br/>
+                                <span className="font-semibold">Expressive Typography</span>
+                            </h1>
+                            <p className="hero-subtitle text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                                A visual exploration of how typography shapes meaning, emotion, and understanding in digital design.
+                            </p>
+                        </div>
+                    </section>
+                    
+                    {/* Introduction */}
+                    <section className="py-16 px-4">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="fade-in">
+                                <p className="text-2xl leading-relaxed text-slate-700 mb-8">
+                                    Typography is more than arranging letters—it's about creating meaning through form. 
+                                    Each decision affects how readers perceive, understand, and feel about content.
+                                </p>
+                                <p className="text-lg leading-relaxed text-slate-600">
+                                    This interactive essay explores six fundamental aspects of expressive typography, 
+                                    each with hands-on demonstrations to help you understand their impact.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    {/* Sections */}
+                    {sections.map((section, index) => (
+                        <section 
+                            key={index}
+                            ref={el => sectionsRef.current[index] = el}
+                            className="py-16 px-4"
+                        >
+                            <div className="max-w-6xl mx-auto">
+                                <div className="grid md:grid-cols-2 gap-12 items-center">
+                                    <div className={index % 2 === 0 ? 'slide-in-left' : 'slide-in-right order-2'}>
+                                        <h2 className="text-4xl md:text-5xl font-light serif mb-4">
+                                            {section.title}
+                                        </h2>
+                                        <h3 className="text-xl text-slate-600 mb-6 font-medium">
+                                            {section.subtitle}
+                                        </h3>
+                                        <p className="text-lg leading-relaxed text-slate-700">
+                                            {section.description}
+                                        </p>
+                                    </div>
+                                    
+                                    <div className={`interactive-demo ${index % 2 === 0 ? 'slide-in-right' : 'slide-in-left'}`}>
+                                        {section.demo}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {index < sections.length - 1 && (
+                                <div className="section-divider max-w-4xl mx-auto"></div>
+                            )}
+                        </section>
+                    ))}
+                    
+                    {/* Conclusion */}
+                    <section className="py-20 px-4">
+                        <div className="max-w-4xl mx-auto text-center">
+                            <div className="scale-in">
+                                <h2 className="text-4xl md:text-5xl font-light serif mb-8">
+                                    Typography is <span className="gradient-text font-semibold">Conversation</span>
+                                </h2>
+                                <p className="text-xl leading-relaxed text-slate-700 mb-8">
+                                    Every typographic choice is a conversation with your reader. Scale whispers or shouts, 
+                                    weight suggests importance, rhythm creates flow, spacing sets mood, typeface conveys 
+                                    personality, and negative space provides rest.
+                                </p>
+                                <p className="text-lg text-slate-600">
+                                    Master these fundamentals, and you master the art of visual communication.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    {/* Footer */}
+                    <footer className="py-8 px-4 border-t border-slate-200">
+                        <div className="max-w-4xl mx-auto text-center">
+                            <p className="text-slate-500 mono text-sm">
+                                Crafted with attention to typographic detail • 2024
+                            </p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+        
+        ReactDOM.render(<TypographyEssay />, document.getElementById('root'));
+    </script>
+</body>
+</html>
+```

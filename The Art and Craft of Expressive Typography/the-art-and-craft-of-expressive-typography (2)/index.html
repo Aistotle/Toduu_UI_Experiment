@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Art and Craft of Expressive Typography</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      /* For a smoother scroll experience */
+      html {
+        scroll-behavior: smooth;
+      }
+      /* Custom styles for animations and specific typographic effects */
+      .fade-in-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+      .fade-in-section.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* Clock hands animation */
+      .clock-hand-hour {
+        animation: tick-tock-hour 12s linear infinite;
+        transform-origin: bottom center;
+      }
+      .clock-hand-minute {
+        animation: tick-tock-minute 2s linear infinite;
+        transform-origin: bottom center;
+      }
+      @keyframes tick-tock-hour {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes tick-tock-minute {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      /* Tsunami wave animation */
+      .tsunami-wave {
+          animation: wave 4s ease-in-out infinite alternate;
+      }
+      @keyframes wave {
+          0% {
+              d: path("M 10 80 C 40 20, 60 20, 90 80 S 140 140, 190 80");
+          }
+          100% {
+              d: path("M 10 80 C 40 140, 60 140, 90 80 S 140 20, 190 80");
+          }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-900 text-gray-300 font-['Inter',_sans-serif]">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

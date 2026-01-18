@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Art and Craft of Expressive Typography</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        neutral: {
+                            50: '#f9fafb',
+                            100: '#f3f4f6',
+                            900: '#111827',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: #111827;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Utilities */
+        .char-wrap {
+            display: inline-block;
+            overflow: hidden;
+        }
+        .char {
+            display: inline-block;
+            transform-origin: 50% 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useEffect, useRef, useState, useLayoutEffect } = React;
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Components ---
+
+        const Header = () => {
+            const logoRef = useRef(null);
+
+            useLayoutEffect(() => {
+                gsap.fromTo(logoRef.current, 
+                    { opacity: 0, y: -20 }, 
+                    { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: "power3.out" }
+                );
+            }, []);
+
+            return (
+                <header className="fixed top-0 left-0 w-full p-6 z-50 flex justify-between items-center mix-blend-difference text-white pointer-events-none">
+                    <div ref={logoRef} className="text-sm font-mono uppercase tracking-widest">
+                        Visual Essay
+                    </div>
+                    <div className="text-xs font-mono opacity-50 hidden md:block">
+                        Scroll to explore
+                    </div>
+                </header>
+            );
+        };
+
+        const SectionIntro = ({ title, description, index }) => {
+            return (
+                <div className="mb-12 md:mb-24 max-w-xl">
+                    <span className="font-mono text-xs text-gray-400 block mb-2">0{index} — Concept</span>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">{title}</h2>
+                    <p className="text-gray-600 leading-relaxed font-serif text-lg italic">
+                        {description}
+                    </p>
+                </div>
+            );
+        };
+
+        // 1. Hero Section
+        const Hero = () => {
+            const containerRef = useRef(null);
+            const titleRef = useRef(null);
+            const subRef = useRef(null);
+
+            useLayoutEffect(() => {
+                const tl = gsap.timeline();
+                
+                tl.fromTo(titleRef.current.children, 
+                    { y: 100, opacity: 0 },
+                    { y: 0, opacity: 1, stagger: 0.1, duration: 1.2, ease: "power4.out" }
+                )
+                .fromTo(subRef.current, 
+                    { opacity: 0 }, 
+                    { opacity: 1, duration: 1 }, 
+                    "-=0.5"
+                );
+
+                // Scroll parallax effect
+                gsap.to(containerRef.current, {
+                    yPercent: 30,
+                    opacity: 0,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            }, []);
+
+            const splitText = "The Art & Craft of Expressive Typography";
+            const words = splitText.split(" ");
+
+            return (
+                <section ref={containerRef} className="h-screen flex flex-col justify-center items-center px-6 relative">
+                    <h1 ref={titleRef} className="text-5xl md:text-8xl font-black text-center leading-tight tracking-tighter max-w-5xl text-neutral-900">
+                        {words.map((word, i) => (
+                            <span key={i} className="inline-block mr-3 md:mr-6">{word}</span>
+                        ))}
+                    </h1>
+                    <p ref={subRef} className="mt-8 text-lg md:text-xl font-serif italic text-neutral-500 max-w-lg text-center">
+                        A visual exploration of form, voice, and silence.
+                    </p>
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+                        <svg className="w-6 h-6 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </div>
+                </section>
+            );
+        };
+
+        // 2. Scale Section
+        const ScaleSection = () => {
+            const sectionRef = useRef(null);
+            const textRef = useRef(null);
+
+            useLayoutEffect(() => {
+                gsap.to(textRef.current, {
+                    scale: 15, // Massive scale
+                    rotate: -5,
+                    transformOrigin: "center center",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top top",
+                        end: "+=150%",
+                        scrub: 1,
+                        pin: true,
+                    }
+                });
+            }, []);
+
+            return (
+                <section ref={sectionRef} className="h-screen flex flex-col items-center justify-center overflow-hidden bg-white relative">
+                    <div className="absolute top-24 left-6 md:left-24 z-10">
+                        <SectionIntro 
+                            index={1}
+                            title="Scale"
+                            description="Scale establishes hierarchy. By contrasting size, we guide the eye, creating drama and importance."
+                        />
+                    </div>
+                    <h1 ref={textRef} className="text-[4rem] md:text-[8rem] font-black leading-none whitespace-nowrap opacity-90">
+                        HIERARCHY
+                    </h1>
+                </section>
+            );
+        };
+
+        // 3. Weight Section
+        const WeightSection = () => {
+            const sectionRef = useRef(null);
+            const lineRefs = useRef([]);
+
+            useLayoutEffect(() => {
+                lineRefs.current.forEach((el, i) => {
+                    gsap.fromTo(el, 
+                        { fontWeight: 100, letterSpacing: "0.5em", filter: "blur(4px)" },
+                        { 
+                            fontWeight: 900, 
+                            letterSpacing: "-0.05em",
+                            filter: "blur(0px)",
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: sectionRef.current,
+                                start: "top center",
+                                end: "bottom center",
+                                scrub: true,
+                            }
+                        }
+                    );
+                });
+            }, []);
+
+            const addToRefs = (el) => {
+                if (el && !lineRefs.current.includes(el)) {
+                    lineRefs.current.push(el);
+                }
+            };
+
+            return (
+                <section ref={sectionRef} className="min-h-[150vh] flex flex-col items-center justify-center py-24 px-6 bg-neutral-900 text-white">
+                    <div className="text-center max-w-2xl mb-20">
+                        <p className="font-mono text-xs text-neutral-400 mb-2">02 — Weight</p>
+                        <h2 className="text-3xl font-bold mb-4">Gravitas</h2>
+                        <p className="text-neutral-400 font-serif italic">
+                            Weight adds emphasis and mood. From delicate hairlines to commanding blocks of ink.
+                        </p>
+                    </div>
+                    
+                    <div className="flex flex-col items-center space-y-8 text-5xl md:text-8xl uppercase">
+                        {["Light", "Regular", "Medium", "Bold", "Black"].map((word, i) => (
+                            <span key={i} ref={addToRefs} className="transition-all">
+                                {word}
+                            </span>
+                        ))}
+                    </div>
+                </section>
+            );
+        };
+
+        // 4. Spacing (Tracking & Leading)
+        const SpacingSection = () => {
+            const sectionRef = useRef(null);
+            const breatheRef = useRef(null);
+            const tightRef = useRef(null);
+
+            useLayoutEffect(() => {
+                // Breathe expansion
+                gsap.fromTo(breatheRef.current, 
+                    { letterSpacing: "0em" },
+                    { 
+                        letterSpacing: "1.5em", 
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: sectionRef.current,
+                            start: "top center",
+                            end: "center center",
+                            scrub: true
+                        }
+                    }
+                );
+
+                // Tight compression
+                gsap.fromTo(tightRef.current, 
+                    { letterSpacing: "0.2em", opacity: 0.5 },
+                    { 
+                        letterSpacing: "-0.08em", 
+                        opacity: 1,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: sectionRef.current,
+                            start: "center center",
+                            end: "bottom bottom",
+                            scrub: true
+                        }
+                    }
+                );
+            }, []);
+
+            return (
+                <section ref={sectionRef} className="min-h-[200vh] flex flex-col relative bg-neutral-50">
+                    <div className="sticky top-0 h-screen flex flex-col items-center justify-center w-full overflow-hidden px-4">
+                         <div className="absolute top-24 left-6 md:left-24 z-10 max-w-md">
+                            <SectionIntro 
+                                index={3}
+                                title="Spacing"
+                                description="Tracking changes the breath of the text. Open spacing feels elegant and airy; tight spacing feels urgent and loud."
+                            />
+                        </div>
+
+                        <div className="flex flex-col items-center justify-center space-y-32 w-full">
+                            <h2 ref={breatheRef} className="text-4xl md:text-7xl font-light uppercase text-neutral-800 whitespace-nowrap">
+                                B R E A T H E
+                            </h2>
+                            <h2 ref={tightRef} className="text-6xl md:text-9xl font-black uppercase text-neutral-900 whitespace-nowrap">
+                                TENSION
+                            </h2>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // 5. Typeface / Voice
+        const VoiceSection = () => {
+            const sectionRef = useRef(null);
+            const containerRef = useRef(null);
+            
+            const phrase = "The medium is the message.";
+
+            useLayoutEffect(() => {
+                const cards = gsap.utils.toArray('.voice-card');
+                
+                gsap.to(cards, {
+                    xPercent: -100 * (cards.length - 1),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        pin: true,
+                        scrub: 1,
+                        snap: 1 / (cards.length - 1),
+                        end: () => "+=" + containerRef.current.offsetWidth
+                    }
+                });
+            }, []);
+
+            const iterations = [
+                { font: 'font-serif', weight: 'font-normal', label: 'Elegant / Traditional (Serif)', bg: 'bg-[#f3e7e4]', text: 'text-[#5c2e2e]' },
+                { font: 'font-sans', weight: 'font-black', label: 'Loud / Modern (Sans-Serif)', bg: 'bg-[#e4f3e6]', text: 'text-[#1a4221]' },
+                { font: 'font-mono', weight: 'font-normal', label: 'Technical / Raw (Monospace)', bg: 'bg-[#e4e9f3]', text: 'text-[#1e2d4a]' },
+                { font: 'font-serif', style: 'italic', weight: 'font-bold', label: 'Expressive / Dynamic', bg: 'bg-[#f3e4f1]', text: 'text-[#4a1e42]' },
+            ];
+
+            return (
+                <section ref={sectionRef} className="h-screen overflow-hidden bg-neutral-100">
+                    <div ref={containerRef} className="flex h-full w-[400%]">
+                        {iterations.map((item, i) => (
+                            <div key={i} className={`voice-card w-screen h-full flex flex-col items-center justify-center relative ${item.bg} ${item.text} p-10`}>
+                                <div className="absolute top-24 left-6 md:left-24 max-w-lg">
+                                    <p className="font-mono text-xs opacity-60 mb-2">04 — Typeface & Voice</p>
+                                    <h3 className="text-2xl font-bold opacity-80">{item.label}</h3>
+                                </div>
+                                
+                                <h2 className={`text-5xl md:text-8xl ${item.font} ${item.weight} ${item.style || ''} text-center max-w-4xl leading-tight`}>
+                                    "{phrase}"
+                                </h2>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            );
+        };
+
+        // 6. Negative Space / Silence
+        const SilenceSection = () => {
+            const sectionRef = useRef(null);
+            const textRef = useRef(null);
+
+            useLayoutEffect(() => {
+                gsap.fromTo(textRef.current,
+                    { opacity: 0, scale: 0.8 },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 2,
+                        scrollTrigger: {
+                            trigger: sectionRef.current,
+                            start: "top center",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            }, []);
+
+            return (
+                <section ref={sectionRef} className="min-h-screen flex items-center justify-center bg-white px-6 py-32">
+                    <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-12 gap-12">
+                        <div className="md:col-span-4">
+                             <SectionIntro 
+                                index={5}
+                                title="Silence"
+                                description="Typography is as much about the space between the letters as the letters themselves. Negative space allows the eye to rest and the meaning to resonate."
+                            />
+                        </div>
+                        <div className="md:col-span-8 flex items-center justify-center md:justify-end min-h-[50vh]">
+                            <div ref={textRef} className="text-center">
+                                <p className="text-xs font-mono tracking-[0.5em] uppercase text-gray-300 mb-6">Silence</p>
+                                <p className="text-2xl md:text-4xl font-serif italic text-gray-800 leading-relaxed">
+                                    "The space defines the form."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Footer
+        const Footer = () => {
+            return (
+                <footer className="bg-black text-neutral-400 py-24 px-6 text-center">
+                    <p className="font-mono text-sm mb-4">Designed & Built with React, GSAP, and Tailwind.</p>
+                    <h2 className="text-white font-bold text-2xl font-sans">Thank You.</h2>
+                </footer>
+            );
+        };
+
+        // --- Main App ---
+        const App = () => {
+            // Reset scroll on load
+            useEffect(() => {
+                window.scrollTo(0, 0);
+            }, []);
+
+            return (
+                <div className="antialiased selection:bg-black selection:text-white">
+                    <Header />
+                    <main>
+                        <Hero />
+                        <ScaleSection />
+                        <WeightSection />
+                        <SpacingSection />
+                        <VoiceSection />
+                        <SilenceSection />
+                    </main>
+                    <Footer />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

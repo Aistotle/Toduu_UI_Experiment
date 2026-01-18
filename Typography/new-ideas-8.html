@@ -1,0 +1,481 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expressive Typography: Stories in Letters</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Roboto:wght@100;300;400;700&family=Orbitron:wght@400;700;900&family=Reenie+Beanie&family=Dancing+Script:wght@400;700&family=Monoton&family=Nosifer&display=swap');
+        body { overflow-x: hidden; }
+        .section { min-height: 100vh; position: relative; overflow: hidden; }
+        .fade-in { opacity: 0; transform: translateY(50px); transition: all 1s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .particle { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; pointer-events: none; }
+        .glow { filter: drop-shadow(0 0 20px rgba(255,255,255,0.8)); }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        .float { animation: float 3s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        @keyframes typewriter { from { width: 0; } to { width: 100%; } }
+        .typewriter { overflow: hidden; white-space: nowrap; border-right: 2px solid white; animation: typewriter 3s steps(40) forwards; }
+        .canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .text-overlay { position: relative; z-index: 10; }
+        .distort { filter: url(#distortion); }
+        .morph { transition: all 0.5s ease; }
+        .noise { animation: noise 0.1s infinite; }
+        @keyframes noise { 0%, 100% { transform: translate(0); } 10% { transform: translate(-1px, -1px); } 20% { transform: translate(1px, -1px); } 30% { transform: translate(-1px, 1px); } 40% { transform: translate(1px, 1px); } 50% { transform: translate(0, 0); } }
+        .glitch { animation: glitch 0.3s linear infinite; }
+        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(-2px, -2px); } 60% { transform: translate(2px, 2px); } 80% { transform: translate(2px, -2px); } 100% { transform: translate(0); } }
+        .liquid { filter: blur(1px); transition: all 0.3s ease; }
+        .liquid:hover { filter: blur(0); transform: scale(1.1); }
+        .vapor { position: relative; }
+        .vapor::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: vapor 4s ease-in-out infinite; z-index: -1; }
+        @keyframes vapor { 0%, 100% { transform: scale(1) rotate(0deg); opacity: 0; } 50% { transform: scale(1.2) rotate(180deg); opacity: 1; } }
+    </style>
+</head>
+<body class="bg-black text-white font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-md px-4 py-2">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold font-monospace">TYPO</h1>
+            <ul class="hidden md:flex space-x-8">
+                <li><a href="#sec1" class="hover:text-blue-400 transition">Origin</a></li>
+                <li><a href="#sec2" class="hover:text-blue-400 transition">Emotion</a></li>
+                <li><a href="#sec3" class="hover:text-blue-400 transition">Motion</a></li>
+                <li><a href="#sec4" class="hover:text-blue-400 transition">Memory</a></li>
+                <li><a href="#sec5" class="hover:text-blue-400 transition">Chaos</a></li>
+                <li><a href="#sec6" class="hover:text-blue-400 transition">Harmony</a></li>
+                <li><a href="#sec7" class="hover:text-blue-400 transition">Evolution</a></li>
+                <li><a href="#sec8" class="hover:text-blue-400 transition">Future</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section 1: The Birth of Expression -->
+    <section id="sec1" class="section bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative">
+        <div class="canvas-container" id="canvas1"></div>
+        <div class="container mx-auto h-screen flex flex-col justify-center items-center text-center px-4">
+            <h1 class="text-6xl md:text-8xl font-black font-serif mb-8 fade-in typewriter glow">TYPE WAS BORN</h1>
+            <p class="text-xl md:text-2xl max-w-4xl mx-auto fade-in delay-300">In the ancient fires of civilization, letters emerged not as mere symbols, but as living breaths of human spirit. From cave walls to illuminated manuscripts, typography became the first canvas of the soul.</p>
+            <div class="mt-12 fade-in delay-600">
+                <svg viewBox="0 0 100 20" class="w-64 h-12 mx-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 10 Q25 0 50 10 T100 10" stroke="white" stroke-width="2" fill="none" class="morph" id="wave1">
+                </svg>
+            </div>
+        </div>
+        <div id="particles1" class="absolute inset-0"></div>
+    </section>
+
+    <!-- Section 2: Emotions in Ink -->
+    <section id="sec2" class="section bg-gradient-to-r from-red-900 via-pink-900 to-purple-900 relative">
+        <div class="container mx-auto h-screen flex flex-col justify-center items-center text-center px-4">
+            <div class="text-9xl md:text-12xl font-black mb-8 fade-in" style="font-family: 'Playfair Display', serif; color: #ff6b6b;">LOVE</div>
+            <div class="text-9xl md:text-12xl font-black mb-8 fade-in delay-300 liquid" style="font-family: 'Dancing Script', cursive; color: #ff1493; filter: drop-shadow(0 0 30px #ff1493);">HURTS</div>
+            <p class="text-xl md:text-2xl max-w-4xl mx-auto fade-in delay-600">Typography captures the heart's wild dance. Letters swell with joy, fracture with sorrow, whisper secrets of passion. Each curve and angle becomes a vessel for the unspoken.</p>
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 fade-in delay-900">
+                <span class="text-4xl font-bold morph hover:scale-110 transition-all">😍</span>
+                <span class="text-4xl font-bold morph hover:scale-110 transition-all">💔</span>
+                <span class="text-4xl font-bold morph hover:scale-110 transition-all">😢</span>
+                <span class="text-4xl font-bold morph hover:scale-110 transition-all">😂</span>
+            </div>
+        </div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(120,119,198,0.3),transparent_50%),radial-gradient(circle_at_80%_20%,rgba(255,119,198,0.3),transparent_50%)]"></div>
+    </section>
+
+    <!-- Section 3: Kinetic Letters -->
+    <section id="sec3" class="section bg-gradient-to-b from-green-900 via-teal-900 to-cyan-900 relative overflow-hidden">
+        <div class="canvas-container" id="canvas3"></div>
+        <div class="container mx-auto h-screen flex flex-col justify-center items-center text-center px-4 relative z-10">
+            <h2 class="text-5xl md:text-7xl font-bold mb-8 fade-in float" style="font-family: 'Orbitron', monospace;">MOTION</h2>
+            <p class="text-xl md:text-2xl max-w-4xl mx-auto fade-in delay-300">Typography doesn't stand still. It leaps, twists, races through space, telling stories through velocity and rhythm. Letters become dancers in the theater of time.</p>
+            <div class="mt-12 flex space-x-4 fade-in delay-600">
+                <div class="text-6xl font-black morph" style="animation: slide-right 2s ease-in-out infinite;">RUSH</div>
+                <div class="text-6xl font-black morph" style="animation: slide-left 2s ease-in-out infinite; animation-delay: 0.5s;">FALL</div>
+                <div class="text-6xl font-black morph" style="animation: bounce 1.5s ease-in-out infinite; animation-delay: 1s;">FLY</div>
+            </div>
+        </div>
+        <style>
+            @keyframes slide-right { 0%, 100% { transform: translateX(-100px); } 50% { transform: translateX(100px); } }
+            @keyframes slide-left { 0%, 100% { transform: translateX(100px); } 50% { transform: translateX(-100px); } }
+            @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+        </style>
+    </section>
+
+    <!-- Section 4: Echoes of Memory -->
+    <section id="sec4" class="section bg-gradient-to-tr from-gray-900 via-blue-900 to-gray-900 relative">
+        <div class="container mx-auto h-screen flex flex-col justify-center items-center text-center px-4">
+            <div class="relative">
+                <div class="text-8xl md:text-10xl font-light mb-4 fade-in vapor" style="font-family: 'Reenie Beanie', cursive; color: #a8b4ff;">REMEMBER</div>
+                <div class="text-8xl md:text-10xl font-light absolute inset-0 opacity-30 blur-sm fade-in delay-300" style="font-family: 'Reenie Beanie', cursive;">REMEMBER</div>
+                <div class="text-8xl md:text-10xl font-light absolute inset-0 opacity-20 blur-lg fade-in delay-600" style="font-family: 'Reenie Beanie', cursive; transform: translateX(20px);">REMEMBER</div>
+            </div>
+            <p class="text-xl md:text-2xl max-w-4xl mx-auto fade-in delay-900">Typography holds the weight of yesterday. Faded letters whisper forgotten tales, their gentle decay a poetry of time's relentless march. Memories live in the spaces between strokes.</p>
+            <div class="mt-12 fade-in delay-1200">
+                <div class="w-64 h-1 bg-white/30 rounded-full mx-auto relative overflow-hidden">
+                    <div class="absolute inset-0 bg-white/50 animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><circle cx=\"25\" cy=\"25\" r=\"1\" fill=\"white\" opacity=\"0.1\"/><circle cx=\"75\" cy=\"75\" r=\"1\" fill=\"white\" opacity=\"0.05\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>')] opacity-20"></div>
+    </section>
+
+    <!-- Section 5: Digital Chaos -->
+    <section id="sec5" class="section bg-black relative">
+        <div class="canvas-container" id="canvas5"></div>
+        <div class="container mx-auto h-screen flex flex-col justify-center items-center text-center px-4 relative z-10">
+            <h2 class="text-7xl md:text-9xl font-black mb-8 fade-in glitch" style="font-family: 'Nosifer', cursive; color: #ff0000;">ERROR</h2>
+            <p class="text-xl md:text-2xl max-w-4xl mx-auto fade-in delay-300 noise">In the digital storm, typography fractures and reforms. Glitches become poetry, errors transform into expression. The machine's rebellion speaks through corrupted code and shattered forms.</p>
+            <div class="mt-12 grid grid-cols-3 gap-4 fade-in delay-600">
+                <div class="text-4xl font-mono bg-black p-4 border border-red-500 glitch">010101</div>
+                <div class="text-4xl font-mono bg-black p-4 border border-green-500 glitch">CRASH</div>
+                <div class="text-4xl font-mono bg-black p-4 border border-blue-500 glitch">REBOOT</div>
+            </div>
+        </div>
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+            <defs>
+                <filter id="distortion">
+                    <feTurbulence baseFrequency="0.01" numOctaves="2" result="noise"/>
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="5"/>
+                </filter>
+            </defs>
+            <rect width="100" height="100" fill="black" filter="url(#distortion)"/>
+        </svg>
+    </section>
+
+    <!-- Section 6: Symphonic Forms -->
+    <section id="sec6" class="section bg-gradient-to-bl from-yellow-900 via-orange-900 to-red-900 relative">
+        <div id="d3-container" class="w-full h-full absolute inset-0"></div>
+        <div class="container mx-auto h-screen flex flex-col justify-center items-center text-center px-4 relative z-10">
+            <h2 class="text-6xl md:text-8xl font-black mb-8 fade-in pulse" style="font-family: 'Monoton', cursive; color: #ffd700;">HARMONY</h2>
+            <p class="text-xl md:text-2xl max-w-4xl mx-auto fade-in delay-300">Typography finds balance in complexity. Letters weave together like musical notes, creating visual symphonies where form and content resonate in perfect counterpoint.</p>
+            <div class="mt-12 text-2xl fade-in delay-600">
+                <div class="flex justify-center space-x-2">
+                    <span class="morph hover:bg-blue-500 p-2 rounded transition-all">A</span>
+                    <span class="morph hover:bg-green-500 p-2 rounded transition-all">B</span>
+                    <span class="morph hover:bg-purple-500 p-2 rounded transition-all">C</span>
+                    <span class="morph hover:bg-orange-500 p-2 rounded transition-all">D</span>
+                    <span class="morph hover:bg-pink-500 p-2 rounded transition-all">E</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Evolution of Form -->
+    <section id="sec7" class="section bg-gradient-to-r from-indigo-900 via-violet-900 to-purple-900 relative">
+        <div class="container mx-auto h-screen flex flex-col justify-center items-center px-4 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-5xl md:text-7xl font-bold fade-in" style="font-family: 'Roboto', sans-serif; font-weight: 100;">Thin</h2>
+                <h2 class="text-5xl md:text-7xl font-bold fade-in delay-200" style="font-family: 'Roboto', sans-serif; font-weight: 300;">Light</h2>
+                <h2 class="text-5xl md:text-7xl font-bold fade-in delay-400" style="font-family: 'Roboto', sans-serif; font-weight: 400;">Regular</h2>
+                <h2 class="text-5xl md:text-7xl font-bold fade-in delay-600" style="font-family: 'Roboto', sans-serif; font-weight: 700;">Bold</h2>
+                <h2 class="text-5xl md:text-7xl font-black fade-in delay-800" style="font-family: 'Roboto', sans-serif; font-weight: 900;">BLACK</h2>
+            </div>
+            <p class="text-xl md:text-2xl max-w-4xl mx-auto fade-in delay-1000">Typography evolves with culture, technology, and time. Each era imprints its soul upon the alphabet, transforming letters from rigid forms to fluid expressions of human progress.</p>
+            <div class="mt-12 w-full max-w-4xl mx-auto fade-in delay-1200">
+                <div class="flex justify-between">
+                    <span class="text-xs font-thin">1800s</span>
+                    <span class="text-sm font-normal">1900s</span>
+                    <span class="text-lg font-bold">2000s</span>
+                    <span class="text-xl font-black">NOW</span>
+                </div>
+                <div class="w-full h-2 bg-white/20 rounded-full mt-2">
+                    <div class="h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-pulse" style="width: 80%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute inset-0 opacity-20">
+            <div class="w-full h-full bg-[repeating-linear-gradient(45deg,#4f46e5_0,#4f46e5_10px,transparent_10px,transparent_20px)] animate-pulse"></div>
+        </div>
+    </section>
+
+    <!-- Section 8: Tomorrow's Alphabet -->
+    <section id="sec8" class="section bg-gradient-to-br from-pink-900 via-purple-900 to-blue-900 relative">
+        <div class="canvas-container" id="canvas8"></div>
+        <div class="container mx-auto h-screen flex flex-col justify-center items-center text-center px-4 relative z-10">
+            <h2 class="text-8xl md:text-10xl font-black mb-8 fade-in float glow" style="font-family: 'Orbitron', monospace;">FUTURE</h2>
+            <p class="text-xl md:text-2xl max-w-4xl mx-auto fade-in delay-300">Typography transcends the page, becoming immersive experiences, neural interfaces, holographic poetry. Letters will dance in our minds, shaping reality through the alchemy of form and meaning.</p>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 fade-in delay-600">
+                <div class="text-4xl font-bold p-4 bg-white/10 rounded-lg backdrop-blur-sm hover:scale-110 transition-all">HOLO-TEXT</div>
+                <div class="text-4xl font-bold p-4 bg-white/10 rounded-lg backdrop-blur-sm hover:scale-110 transition-all">NEURAL-FONT</div>
+                <div class="text-4xl font-bold p-4 bg-white/10 rounded-lg backdrop-blur-sm hover:scale-110 transition-all">QUANTUM-GLYPHS</div>
+            </div>
+            <div class="mt-8 text-sm opacity-75 fade-in delay-900">The alphabet of tomorrow writes itself in light, code, and consciousness.</div>
+        </div>
+        <div id="particles8" class="absolute inset-0"></div>
+    </section>
+
+    <script>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Section 1: Three.js particle system
+        function initSection1() {
+            const scene1 = new THREE.Scene();
+            const camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer1 = new THREE.WebGLRenderer({ alpha: true });
+            renderer1.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('canvas1').appendChild(renderer1.domElement);
+
+            const particlesGeometry1 = new THREE.BufferGeometry();
+            const particlesCount1 = 500;
+            const posArray1 = new Float32Array(particlesCount1 * 3);
+
+            for (let i = 0; i < particlesCount1 * 3; i++) {
+                posArray1[i] = (Math.random() - 0.5) * 10;
+            }
+
+            particlesGeometry1.setAttribute('position', new THREE.BufferAttribute(posArray1, 3));
+            const particlesMaterial1 = new THREE.PointsMaterial({
+                size: 0.005,
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.6
+            });
+
+            const particlesMesh1 = new THREE.Points(particlesGeometry1, particlesMaterial1);
+            scene1.add(particlesMesh1);
+
+            camera1.position.z = 5;
+
+            function animate1() {
+                requestAnimationFrame(animate1);
+                particlesMesh1.rotation.y += 0.001;
+                renderer1.render(scene1, camera1);
+            }
+            animate1();
+
+            // Particles DOM
+            function createParticles(containerId) {
+                const container = document.getElementById(containerId);
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 3 + 's';
+                    particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    container.appendChild(particle);
+                }
+            }
+            createParticles('particles1');
+        }
+
+        // Section 3: Three.js flowing text
+        function initSection3() {
+            const scene3 = new THREE.Scene();
+            const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer3 = new THREE.WebGLRenderer({ alpha: true });
+            renderer3.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('canvas3').appendChild(renderer3.domElement);
+
+            const geometry3 = new THREE.PlaneGeometry(5, 3);
+            const material3 = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.1 });
+            const plane3 = new THREE.Mesh(geometry3, material3);
+            scene3.add(plane3);
+
+            camera3.position.z = 5;
+
+            function animate3() {
+                requestAnimationFrame(animate3);
+                plane3.rotation.x += 0.01;
+                plane3.rotation.y += 0.005;
+                renderer3.render(scene3, camera3);
+            }
+            animate3();
+        }
+
+        // Section 5: Three.js glitch effect
+        function initSection5() {
+            const scene5 = new THREE.Scene();
+            const camera5 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer5 = new THREE.WebGLRenderer({ alpha: true });
+            renderer5.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('canvas5').appendChild(renderer5.domElement);
+
+            const geometry5 = new THREE.BoxGeometry();
+            const material5 = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+            const cube5 = new THREE.Mesh(geometry5, material5);
+            scene5.add(cube5);
+
+            camera5.position.z = 5;
+
+            function animate5() {
+                requestAnimationFrame(animate5);
+                cube5.rotation.x += 0.02;
+                cube5.rotation.y += 0.01;
+                cube5.position.x = Math.sin(Date.now() * 0.001) * 0.5;
+                renderer5.render(scene5, camera5);
+            }
+            animate5();
+        }
+
+        // Section 6: D3.js visualization
+        function initSection6() {
+            const svg = d3.select("#d3-container")
+                .append("svg")
+                .attr("width", window.innerWidth)
+                .attr("height", window.innerHeight);
+
+            const data = d3.range(100).map(d => ({x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, r: Math.random() * 5 + 2}));
+
+            const circles = svg.selectAll("circle")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y)
+                .attr("r", d => d.r)
+                .attr("fill", "rgba(255, 215, 0, 0.3)")
+                .attr("stroke", "#ffd700")
+                .attr("stroke-width", 1);
+
+            function animateCircles() {
+                circles
+                    .transition()
+                    .duration(2000)
+                    .attr("cx", d => Math.random() * window.innerWidth)
+                    .attr("cy", d => Math.random() * window.innerHeight)
+                    .transition()
+                    .duration(2000)
+                    .attr("r", d => Math.random() * 5 + 2)
+                    .on("end", animateCircles);
+            }
+            animateCircles();
+        }
+
+        // Section 8: Advanced particle system
+        function initSection8() {
+            const scene8 = new THREE.Scene();
+            const camera8 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer8 = new THREE.WebGLRenderer({ alpha: true });
+            renderer8.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('canvas8').appendChild(renderer8.domElement);
+
+            const particlesGeometry8 = new THREE.BufferGeometry();
+            const particlesCount8 = 1000;
+            const posArray8 = new Float32Array(particlesCount8 * 3);
+            const colorsArray8 = new Float32Array(particlesCount8 * 3);
+
+            for (let i = 0; i < particlesCount8 * 3; i += 3) {
+                posArray8[i] = (Math.random() - 0.5) * 20;
+                posArray8[i + 1] = (Math.random() - 0.5) * 20;
+                posArray8[i + 2] = (Math.random() - 0.5) * 20;
+
+                colorsArray8[i] = Math.random();
+                colorsArray8[i + 1] = Math.random();
+                colorsArray8[i + 2] = 1;
+            }
+
+            particlesGeometry8.setAttribute('position', new THREE.BufferAttribute(posArray8, 3));
+            particlesGeometry8.setAttribute('color', new THREE.BufferAttribute(colorsArray8, 3));
+
+            const particlesMaterial8 = new THREE.PointsMaterial({
+                size: 0.01,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            const particlesMesh8 = new THREE.Points(particlesGeometry8, particlesMaterial8);
+            scene8.add(particlesMesh8);
+
+            camera8.position.z = 5;
+
+            function animate8() {
+                requestAnimationFrame(animate8);
+                particlesMesh8.rotation.y += 0.002;
+                particlesMesh8.rotation.x += 0.001;
+                renderer8.render(scene8, camera8);
+            }
+            animate8();
+
+            // Additional DOM particles
+            function createAdvancedParticles(containerId) {
+                const container = document.getElementById(containerId);
+                for (let i = 0; i < 100; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle glow';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                    particle.style.animation = `float ${Math.random() * 4 + 2}s ease-in-out infinite`;
+                    particle.style.animationDelay = Math.random() * 2 + 's';
+                    container.appendChild(particle);
+                }
+            }
+            createAdvancedParticles('particles8');
+        }
+
+        // Initialize all sections
+        window.addEventListener('load', () => {
+            initSection1();
+            initSection3();
+            initSection5();
+            initSection6();
+            initSection8();
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Responsive handling
+        window.addEventListener('resize', () => {
+            // Re-render Three.js canvases if needed
+        });
+
+        // Typewriter effect completion
+        setTimeout(() => {
+            document.querySelector('.typewriter').style.borderRight = 'none';
+        }, 3000);
+
+        // Morphing interactions
+        document.querySelectorAll('.morph').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                el.style.transform = 'rotate(5deg) scale(1.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'rotate(0deg) scale(1)';
+            });
+        });
+
+        // Liquid hover effects
+        document.querySelectorAll('.liquid').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                el.style.filter = `blur(2px) hue-rotate(${x / rect.width * 360}deg)`;
+            });
+        });
+    </script>
+</body>
+</html>
+```

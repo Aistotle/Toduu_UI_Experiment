@@ -1,0 +1,437 @@
+{
+  "version": 1,
+  "terminalName": "pls mode",
+  "categories": [
+    {
+      "id": "essentials",
+      "title": "Essentials",
+      "items": [
+        {
+          "id": "dev",
+          "label": "Start dev server",
+          "cmd": "pnpm dev",
+          "danger": false,
+          "description": "Opens the app in your browser so you can see your changes live",
+          "notes": "test",
+          "favorite": true,
+          "stats": {
+            "runCount": 2,
+            "copyCount": 0,
+            "createdAt": "2025-12-31T22:52:05.209Z",
+            "lastUsedAt": "2026-01-01T02:51:54.963Z"
+          }
+        },
+        {
+          "id": "build",
+          "label": "Build for production",
+          "cmd": "pnpm build",
+          "danger": false,
+          "description": "Creates the final version of the app for users"
+        },
+        {
+          "id": "essentials-1767225494461",
+          "label": "Install all packages",
+          "cmd": "npm install",
+          "danger": false,
+          "description": "Downloads all packages your project needs"
+        },
+        {
+          "id": "essentials-1767226043431",
+          "label": "Update packages",
+          "cmd": "npm update",
+          "danger": false,
+          "description": "Updates packages to newer versions"
+        },
+        {
+          "id": "essentials-1767227599028",
+          "label": "Go to folder",
+          "cmd": "cd <path>",
+          "danger": false,
+          "description": "Moves you into another folder so you can work there."
+        },
+        {
+          "id": "essentials-1767236771158",
+          "label": "Show folder tree",
+          "cmd": "tree -L 2",
+          "danger": false,
+          "description": "Draws a folder map so you can see structure.",
+          "stats": {
+            "runCount": 1,
+            "copyCount": 0,
+            "createdAt": "2026-01-01T03:06:23.220Z",
+            "lastUsedAt": "2026-01-01T03:06:23.220Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tests",
+      "title": "Tests",
+      "items": [
+        {
+          "id": "test",
+          "label": "Run tests",
+          "cmd": "pnpm test",
+          "danger": false,
+          "description": "Checks if your code works correctly (watches for changes)"
+        },
+        {
+          "id": "test-ci",
+          "label": "Run CI tests",
+          "cmd": "pnpm test:ci",
+          "danger": false,
+          "description": "Runs all tests once and shows a coverage report"
+        },
+        {
+          "id": "e2e",
+          "label": "Run E2E tests",
+          "cmd": "pnpm e2e",
+          "danger": false,
+          "description": "Tests the app like a real user clicking through it"
+        },
+        {
+          "id": "tests-1767941214345",
+          "label": "Lint + TypeScript Check",
+          "cmd": "npm run check",
+          "danger": false,
+          "description": "Checks for lint and typescript errors.\nLint = \"Is the code clean?\"\nType = \"Do the types fit together?\"",
+          "favorite": true,
+          "stats": {
+            "runCount": 20,
+            "copyCount": 0,
+            "createdAt": "2026-01-09T06:49:48.244Z",
+            "lastUsedAt": "2026-01-13T19:59:31.957Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup",
+      "title": "Cleanup",
+      "items": [
+        {
+          "id": "lint",
+          "label": "Run linter",
+          "cmd": "pnpm lint",
+          "danger": false,
+          "description": "Finds code style issues and common mistakes"
+        },
+        {
+          "id": "typecheck",
+          "label": "Type check",
+          "cmd": "pnpm typecheck",
+          "danger": false,
+          "description": "Catches bugs by checking your code makes sense"
+        },
+        {
+          "id": "ci-verify",
+          "label": "Full CI verify",
+          "cmd": "pnpm ci:verify",
+          "danger": false,
+          "description": "Runs everything to make sure the code is ready to ship"
+        },
+        {
+          "id": "cleanup-1767226058307",
+          "label": "Check for security issues",
+          "cmd": "npm audit",
+          "danger": false,
+          "description": "Scans packages for known security problems"
+        },
+        {
+          "id": "cleanup-1767228377596",
+          "label": "See updates",
+          "cmd": "npm outdated",
+          "danger": false,
+          "description": "Shows which tools have newer versions available."
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "title": "AI",
+      "subcategories": [
+        {
+          "id": "claude",
+          "title": "Claude",
+          "items": [
+            {
+              "id": "claude-code",
+              "label": "Start Claude Code",
+              "cmd": "claude",
+              "danger": false,
+              "description": "Opens the Claude AI coding assistant in your terminal"
+            }
+          ]
+        },
+        {
+          "id": "codex",
+          "title": "Codex",
+          "items": [
+            {
+              "id": "codex-start",
+              "label": "Start Codex",
+              "cmd": "codex",
+              "danger": false,
+              "description": "Opens the OpenAI Codex assistant in your terminal"
+            }
+          ]
+        },
+        {
+          "id": "mcp",
+          "title": "MCP Tools",
+          "items": [
+            {
+              "id": "mcp-config",
+              "label": "Edit MCP config",
+              "cmd": "code ~/.claude/claude_desktop_config.json",
+              "danger": false,
+              "description": "Opens the MCP server settings file to add new tools"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "github",
+      "title": "GitHub",
+      "items": [
+        {
+          "id": "git-status",
+          "label": "Check what changed",
+          "cmd": "git status",
+          "danger": false,
+          "description": "Shows which files you've modified since your last save",
+          "favorite": true
+        },
+        {
+          "id": "git-push",
+          "label": "Upload to GitHub",
+          "cmd": "git push",
+          "danger": false,
+          "description": "Sends your saved changes to GitHub"
+        },
+        {
+          "id": "git-pull",
+          "label": "Download latest",
+          "cmd": "git pull",
+          "danger": false,
+          "description": "Gets the newest code from GitHub"
+        },
+        {
+          "id": "github-1767225260576",
+          "label": "Check what changed",
+          "cmd": "git status",
+          "danger": false,
+          "description": "Shows files you've modified"
+        },
+        {
+          "id": "github-1767226507286",
+          "label": "Switch to main branch",
+          "cmd": "git checkout main",
+          "danger": false,
+          "description": "Goes back to the main branch"
+        },
+        {
+          "id": "github-1767226619324",
+          "label": "Check what changed",
+          "cmd": "git status",
+          "danger": false,
+          "description": "Shows files you've modified"
+        },
+        {
+          "id": "github-1767228854208",
+          "label": "Select all changes",
+          "cmd": "git add -A",
+          "danger": false,
+          "description": "Marks everything you changed, including deletions, for the next save."
+        },
+        {
+          "id": "github-1767228891196",
+          "label": "View changes",
+          "cmd": "git diff",
+          "danger": false,
+          "description": "Shows exactly what changed in your files."
+        },
+        {
+          "id": "github-1767228918654",
+          "label": "Create new branch",
+          "cmd": "git switch -c <branch>",
+          "danger": false,
+          "description": "Creates a new branch (new version) and moves you into it."
+        },
+        {
+          "id": "github-1767228927886",
+          "label": "Switch branch",
+          "cmd": "git switch <branch>",
+          "danger": false,
+          "description": "Moves you to another branch (another version) so you can work there."
+        },
+        {
+          "id": "github-1767592070948",
+          "label": "Pull from main branch",
+          "cmd": "git pull origin main",
+          "danger": false,
+          "description": "Use this to sync remote git repo into local before starting work (syncs remote → local)",
+          "favorite": true,
+          "stats": {
+            "runCount": 0,
+            "copyCount": 0,
+            "createdAt": "2026-01-05T05:48:22.920Z",
+            "lastUsedAt": "2026-01-05T05:48:22.920Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "combos",
+      "title": "Combos",
+      "items": [
+        {
+          "id": "full-check",
+          "label": "Lint + Type + Test",
+          "cmd": "pnpm lint && pnpm typecheck && pnpm test:ci",
+          "danger": false,
+          "description": "Runs all quality checks in sequence (stops if one fails)"
+        },
+        {
+          "id": "fresh-start",
+          "label": "Clean + Install",
+          "cmd": "rm -rf node_modules && pnpm install",
+          "danger": false,
+          "description": "Wipes packages and reinstalls everything fresh"
+        }
+      ]
+    },
+    {
+      "id": "dangerous",
+      "title": "Dangerous",
+      "items": [
+        {
+          "id": "clean",
+          "label": "Clean all caches",
+          "cmd": "rm -rf .next node_modules/.cache",
+          "danger": true,
+          "confirm": "This will delete Next.js cache and node_modules cache. Continue?",
+          "description": "Fixes weird bugs by clearing temporary files"
+        },
+        {
+          "id": "reset",
+          "label": "Hard reset to HEAD",
+          "cmd": "git reset --hard HEAD",
+          "danger": true,
+          "confirm": "This will discard ALL uncommitted changes! Are you sure?",
+          "description": "Throws away all your unsaved changes (can't undo!)"
+        }
+      ]
+    },
+    {
+      "id": "test",
+      "title": "Test",
+      "items": [
+        {
+          "id": "test-1767941371994",
+          "label": "Test if code runs correctly",
+          "cmd": "npm run test",
+          "danger": false,
+          "description": "Runs automated tests to verify behavior.\n\n\"Does it do what it's supposed to?\"",
+          "favorite": true,
+          "stats": {
+            "runCount": 22,
+            "copyCount": 0,
+            "createdAt": "2026-01-09T06:49:44.792Z",
+            "lastUsedAt": "2026-01-13T19:59:22.287Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "custom",
+      "title": "Custom",
+      "items": [
+        {
+          "id": "custom-1767228954593",
+          "label": "Show all aliases",
+          "cmd": "alias",
+          "danger": false,
+          "description": "Lists all your current shortcuts."
+        },
+        {
+          "id": "custom-1767228993140",
+          "label": "Remove an alias",
+          "cmd": "unalias <name>",
+          "danger": false,
+          "description": "Deletes a shortcut you created."
+        }
+      ]
+    },
+    {
+      "id": "terminal-basics",
+      "title": "Terminal-basics",
+      "items": [
+        {
+          "id": "terminal-basics-1767236843622",
+          "label": "Show folder path",
+          "cmd": "pwd",
+          "danger": false,
+          "description": "Shows the full path of your current folder."
+        },
+        {
+          "id": "terminal-basics-1767236897239",
+          "label": "List files",
+          "cmd": "dir",
+          "danger": false,
+          "description": "Shows files and folders in this place."
+        },
+        {
+          "id": "terminal-basics-1767236966117",
+          "label": "Clear screen",
+          "cmd": "clear",
+          "danger": false,
+          "description": "Clears the terminal so it’s easier to read."
+        }
+      ]
+    },
+    {
+      "id": "prompts",
+      "title": "PROMPTS",
+      "icon": "zap",
+      "items": [
+        {
+          "id": "prompts-1767942199690",
+          "label": "Add New Tests",
+          "cmd": "Expand test coverage. Look at existing test files and identify  functions or systems that are tested lightly or not at all.  Implement tests for the most critical gap — prioritize code  that's core to the main functionality of this project.  Follow existing test patterns and conventions in the codebase.  Keep tests focused and avoid testing trivial logic.",
+          "danger": false,
+          "description": "Expand test coverage. Look at existing test files and identify \nfunctions or systems that are tested lightly or not at all. \nImplement tests for the most critical gap — prioritize code \nthat's core to the main functionality of this project.\n\nFollow existing test patterns and conventions in the codebase. \nKeep tests focused and avoid testing trivial logic.",
+          "favorite": true,
+          "stats": {
+            "runCount": 0,
+            "copyCount": 10,
+            "createdAt": "2026-01-09T07:03:46.781Z",
+            "lastUsedAt": "2026-01-12T21:15:59.525Z"
+          }
+        }
+      ]
+    }
+  ],
+  "dismissedSuggestions": [
+    "npm-run-dev",
+    "python-sandbox-on",
+    "python-sandbox-on-windows",
+    "npm-add",
+    "npm-add-dev",
+    "npm-ci",
+    "npm-run-build",
+    "npm-run-script",
+    "npm-start",
+    "npm-test",
+    "npm-run-lint",
+    "npm-run-typecheck",
+    "git-add"
+  ],
+  "favoriteOrder": [
+    "tests-1767941214345",
+    "test-1767941371994",
+    "prompts-1767942199690",
+    "dev"
+  ]
+}

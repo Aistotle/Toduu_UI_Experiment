@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Art and Craft of Expressive Typography</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fefefe;
+        }
+
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .font-space {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-text {
+            font-size: clamp(3rem, 12vw, 12rem);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+        }
+
+        .scale-demo {
+            font-size: clamp(1rem, 3vw, 2rem);
+            transition: font-size 0.3s ease;
+        }
+
+        .weight-demo {
+            font-weight: 100;
+            transition: font-weight 0.3s ease;
+        }
+
+        .spacing-demo {
+            letter-spacing: 0;
+            transition: letter-spacing 0.3s ease;
+        }
+
+        .rhythm-demo {
+            line-height: 1;
+            transition: line-height 0.3s ease;
+        }
+
+        .negative-space {
+            background: #000;
+            color: #fff;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .prose {
+            max-width: 65ch;
+            margin: 0 auto;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .interactive-text {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-text:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .hero-text {
+                font-size: clamp(2rem, 10vw, 8rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="section bg-gradient-to-br from-slate-50 to-blue-50">
+        <div class="text-center px-6">
+            <div class="hero-text font-display text-gradient mb-8" id="hero-title">
+                The Art<br>
+                <span class="font-space font-light">and</span><br>
+                Craft
+            </div>
+            <p class="text-xl md:text-2xl text-gray-600 font-light max-w-2xl mx-auto reveal">
+                of Expressive Typography
+            </p>
+            <div class="mt-12 text-sm text-gray-400 font-mono reveal">
+                scroll to explore ↓
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction -->
+    <section class="section px-6 py-20">
+        <div class="prose text-center">
+            <p class="text-2xl md:text-3xl font-light text-gray-700 leading-relaxed reveal">
+                Typography is the <em class="font-display font-semibold not-italic">voice</em> of written language.
+            </p>
+            <p class="text-lg md:text-xl text-gray-600 mt-8 reveal">
+                It whispers, shouts, sings, and sighs. Through careful manipulation of scale, weight, rhythm, and space, 
+                type becomes an instrument of expression—transforming mere words into experiences.
+            </p>
+        </div>
+    </section>
+
+    <!-- Scale Section -->
+    <section class="section px-6 py-20 bg-gray-50">
+        <div class="w-full max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-display font-bold text-gray-800 reveal">Scale</h2>
+                <p class="text-lg text-gray-600 mt-4 reveal">The hierarchy of importance</p>
+            </div>
+            
+            <div class="space-y-8">
+                <div class="scale-demo interactive-text text-6xl md:text-8xl font-bold text-center text-gray-800 reveal" 
+                     data-size="large">ENORMOUS</div>
+                <div class="scale-demo interactive-text text-3xl md:text-5xl font-semibold text-center text-gray-700 reveal" 
+                     data-size="medium">Medium</div>
+                <div class="scale-demo interactive-text text-lg md:text-xl text-center text-gray-600 reveal" 
+                     data-size="small">small</div>
+                <div class="scale-demo interactive-text text-xs md:text-sm text-center text-gray-500 reveal" 
+                     data-size="tiny">whisper</div>
+            </div>
+            
+            <p class="text-center text-gray-600 mt-12 reveal">
+                <em>Click any size to see the impact</em>
+            </p>
+        </div>
+    </section>
+
+    <!-- Weight Section -->
+    <section class="section px-6 py-20">
+        <div class="w-full max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-display font-bold text-gray-800 reveal">Weight</h2>
+                <p class="text-lg text-gray-600 mt-4 reveal">The gravity of words</p>
+            </div>
+            
+            <div class="text-center space-y-6">
+                <div class="weight-demo interactive-text text-4xl md:text-6xl font-display reveal" 
+                     style="font-weight: 100;">Ethereal</div>
+                <div class="weight-demo interactive-text text-4xl md:text-6xl font-display reveal" 
+                     style="font-weight: 300;">Light</div>
+                <div class="weight-demo interactive-text text-4xl md:text-6xl font-display reveal" 
+                     style="font-weight: 400;">Regular</div>
+                <div class="weight-demo interactive-text text-4xl md:text-6xl font-display reveal" 
+                     style="font-weight: 600;">Confident</div>
+                <div class="weight-demo interactive-text text-4xl md:text-6xl font-display reveal" 
+                     style="font-weight: 900;">BOLD</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rhythm Section -->
+    <section class="section px-6 py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+        <div class="w-full max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-display font-bold text-gray-800 reveal">Rhythm</h2>
+                <p class="text-lg text-gray-600 mt-4 reveal">The breath between lines</p>
+            </div>
+            
+            <div class="space-y-12">
+                <div class="rhythm-demo interactive-text text-2xl md:text-3xl text-gray-700 reveal" 
+                     style="line-height: 1;">
+                    Tight rhythm creates<br>
+                    intensity and urgency<br>
+                    demanding attention
+                </div>
+                
+                <div class="rhythm-demo interactive-text text-2xl md:text-3xl text-gray-700 reveal" 
+                     style="line-height: 1.6;">
+                    Comfortable spacing allows<br>
+                    the reader to breathe<br>
+                    and absorb each thought
+                </div>
+                
+                <div class="rhythm-demo interactive-text text-2xl md:text-3xl text-gray-700 reveal" 
+                     style="line-height: 2.5;">
+                    Generous line height<br><br>
+                    creates contemplative<br><br>
+                    peaceful moments
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Spacing Section -->
+    <section class="section px-6 py-20">
+        <div class="w-full max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-display font-bold text-gray-800 reveal">Spacing</h2>
+                <p class="text-lg text-gray-600 mt-4 reveal">The dance between letters</p>
+            </div>
+            
+            <div class="text-center space-y-8">
+                <div class="spacing-demo interactive-text text-3xl md:text-5xl font-space font-bold text-gray-800 reveal" 
+                     style="letter-spacing: -0.1em;">TIGHTLY BOUND</div>
+                <div class="spacing-demo interactive-text text-3xl md:text-5xl font-space font-bold text-gray-800 reveal" 
+                     style="letter-spacing: 0;">NORMAL FLOW</div>
+                <div class="spacing-demo interactive-text text-3xl md:text-5xl font-space font-bold text-gray-800 reveal" 
+                     style="letter-spacing: 0.1em;">S P A C I O U S</div>
+                <div class="spacing-demo interactive-text text-3xl md:text-5xl font-space font-bold text-gray-800 reveal" 
+                     style="letter-spacing: 0.3em;">E X P A N S I V E</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Typeface Section -->
+    <section class="section px-6 py-20 bg-gray-100">
+        <div class="w-full max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-display font-bold text-gray-800 reveal">Voice</h2>
+                <p class="text-lg text-gray-600 mt-4 reveal">Each typeface has personality</p>
+            </div>
+            
+            <div class="space-y-8 text-center">
+                <div class="interactive-text text-3xl md:text-4xl font-display text-gray-800 reveal">
+                    Elegant and sophisticated
+                </div>
+                <div class="interactive-text text-3xl md:text-4xl text-gray-800 reveal">
+                    Clean and modern
+                </div>
+                <div class="interactive-text text-3xl md:text-4xl font-mono text-gray-800 reveal">
+                    Technical and precise
+                </div>
+                <div class="interactive-text text-3xl md:text-4xl font-space text-gray-800 reveal">
+                    Geometric and bold
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Negative Space Section -->
+    <section class="section negative-space px-6 py-20">
+        <div class="w-full max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-6xl font-display font-bold mb-8 reveal">Silence</h2>
+            <p class="text-lg mb-16 opacity-70 reveal">
+                Sometimes what we don't say speaks loudest
+            </p>
+            
+            <div class="space-y-16">
+                <div class="text-2xl md:text-3xl font-light reveal">
+                    In the space between words
+                </div>
+                
+                <div class="py-16">
+                    <!-- Intentional empty space -->
+                </div>
+                
+                <div class="text-2xl md:text-3xl font-light reveal">
+                    We find meaning
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="section px-6 py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+        <div class="prose text-center">
+            <h2 class="text-4xl md:text-6xl font-display font-bold text-gray-800 mb-8 reveal">
+                The Craft Continues
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-700 leading-relaxed mb-8 reveal">
+                Typography is not just about making text readable—it's about making it <em>felt</em>.
+            </p>
+            <p class="text-lg text-gray-600 reveal">
+                Each choice in scale, weight, rhythm, spacing, voice, and silence 
+                contributes to the emotional resonance of your message.
+            </p>
+            <div class="mt-16 text-sm text-gray-500 font-mono reveal">
+                Thank you for reading ◦
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Register ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initialize reveal animations
+        function initRevealAnimations() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            reveals.forEach(element => {
+                gsap.fromTo(element, 
+                    {
+                        opacity: 0,
+                        y: 50
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top 85%",
+                            end: "bottom 15%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+        }
+
+        // Scale interaction
+        function initScaleInteractions() {
+            const scaleElements = document.querySelectorAll('[data-size]');
+            
+            scaleElements.forEach(element => {
+                element.addEventListener('click', () => {
+                    // Reset all elements
+                    scaleElements.forEach(el => el.classList.remove('transform', 'scale-110'));
+                    
+                    // Animate clicked element
+                    element.classList.add('transform', 'scale-110');
+                    
+                    // Reset after animation
+                    setTimeout(() => {
+                        element.classList.remove('transform', 'scale-110');
+                    }, 300);
+                });
+            });
+        }
+
+        // Weight interactions
+        function initWeightInteractions() {
+            const weightElements = document.querySelectorAll('.weight-demo');
+            
+            weightElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    gsap.to(element, {
+                        scale: 1.1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    gsap.to(element, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+        }
+
+        // Rhythm interactions
+        function initRhythmInteractions() {
+            const rhythmElements = document.querySelectorAll('.rhythm-demo');
+            
+            rhythmElements.forEach(element => {
+                element.addEventListener('click', () => {
+                    const currentLineHeight = parseFloat(getComputedStyle(element).lineHeight);
+                    const newLineHeight = currentLineHeight === 1 ? 2.5 : 1;
+                    
+                    gsap.to(element, {
+                        lineHeight: newLineHeight,
+                        duration: 0.5,
+                        ease: "power2.inOut"
+                    });
+                });
+            });
+        }
+
+        // Spacing interactions
+        function initSpacingInteractions() {
+            const spacingElements = document.querySelectorAll('.spacing-demo');
+            
+            spacingElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    const currentSpacing = parseFloat(getComputedStyle(element).letterSpacing);
+                    gsap.to(element, {
+                        letterSpacing: "0.2em",
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    const originalSpacing = element.style.letterSpacing;
+                    gsap.to(element, {
+                        letterSpacing: originalSpacing,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+        }
+
+        // Hero title animation
+        function initHeroAnimation() {
+            const heroTitle = document.getElementById('hero-title');
+            
+            gsap.fromTo(heroTitle,
+                {
+                    opacity: 0,
+                    y: 100,
+                    scale: 0.8
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 1.2,
+                    ease: "power3.out",
+                    delay: 0.2
+                }
+            );
+        }
+
+        // Initialize all interactions when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initRevealAnimations();
+            initScaleInteractions();
+            initWeightInteractions();
+            initRhythmInteractions();
+            initSpacingInteractions();
+            initHeroAnimation();
+        });
+
+        // Smooth scrolling for better experience
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(() => {
+                // Any additional scroll-based animations can go here
+            });
+        });
+    </script>
+</body>
+</html>

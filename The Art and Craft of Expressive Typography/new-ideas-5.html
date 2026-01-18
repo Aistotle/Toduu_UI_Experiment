@@ -1,0 +1,497 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Art and Craft of Expressive Typography</title>
+
+    <!-- Google Fonts: Fraunces (Variable Serif) and Inter (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Fraunces', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'paper': '#F5F2EB',
+                        'ink': '#1A1A1A',
+                        'ink-light': '#4A4A4A',
+                        'accent': '#D9421C',
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F5F2EB;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d1d1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b0b0b0;
+        }
+
+        /* Grain Overlay */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        body {
+            background-color: #F5F2EB;
+            color: #1A1A1A;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::selection {
+            background: #D9421C;
+            color: white;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #1A1A1A;
+            cursor: pointer;
+            margin-top: -6px; 
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #e0ddd6;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { motion, useScroll, useTransform, useSpring, useInView } = window.Motion;
+
+        // --- Components ---
+
+        // 1. Reveal Text Component
+        const RevealText = ({ children, delay = 0, className = "" }) => {
+            return (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+                    className={className}
+                >
+                    {children}
+                </motion.div>
+            );
+        };
+
+        // 2. Smooth Progress Bar
+        const ProgressBar = () => {
+            const { scrollYProgress } = useScroll();
+            const scaleX = useSpring(scrollYProgress, {
+                stiffness: 100,
+                damping: 30,
+                restDelta: 0.001
+            });
+
+            return (
+                <motion.div
+                    className="fixed top-0 left-0 right-0 h-1 bg-ink z-50 origin-left"
+                    style={{ scaleX }}
+                />
+            );
+        };
+
+        // 3. Section Wrapper
+        const Section = ({ children, className = "" }) => (
+            <section className={`min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-24 py-24 relative ${className}`}>
+                {children}
+            </section>
+        );
+
+        // --- Chapter Components ---
+
+        const Hero = () => {
+            return (
+                <Section className="items-start pt-32">
+                    <div className="max-w-5xl w-full">
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1.5 }}
+                            className="mb-6 flex items-center gap-4"
+                        >
+                            <span className="w-12 h-[1px] bg-ink"></span>
+                            <span className="font-sans text-sm tracking-widest uppercase text-ink-light">Visual Essay</span>
+                        </motion.div>
+
+                        <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] text-ink tracking-tight mb-12">
+                            <motion.span 
+                                initial={{ y: "100%", opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                                className="block overflow-hidden"
+                            >
+                                The Art
+                            </motion.span>
+                            <motion.span 
+                                initial={{ y: "100%", opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
+                                className="block overflow-hidden italic font-light"
+                            >
+                                & Craft
+                            </motion.span>
+                            <motion.span 
+                                initial={{ y: "100%", opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
+                                className="block overflow-hidden"
+                            >
+                                of Typography
+                            </motion.span>
+                        </h1>
+
+                        <RevealText delay={1} className="max-w-md ml-auto md:mr-24">
+                            <p className="font-sans text-lg leading-relaxed text-ink-light">
+                                Typography is more than legibility. It is the voice of the written word—a mechanism to control time, attention, and emotion.
+                            </p>
+                        </RevealText>
+                    </div>
+                    
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 2, duration: 1 }}
+                        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
+                    >
+                        <span className="text-xs font-sans uppercase tracking-widest">Scroll to Explore</span>
+                        <div className="w-[1px] h-12 bg-ink/30"></div>
+                    </motion.div>
+                </Section>
+            );
+        };
+
+        const ChapterScale = () => {
+            const [scale, setScale] = useState(50);
+
+            return (
+                <Section>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div className="order-2 lg:order-1">
+                            <RevealText className="mb-4">
+                                <span className="font-sans text-accent text-sm font-semibold tracking-wider uppercase">Chapter 01: Scale</span>
+                            </RevealText>
+                            <RevealText>
+                                <h2 className="font-serif text-5xl mb-6">Hierarchy through Size</h2>
+                            </RevealText>
+                            <RevealText>
+                                <p className="font-sans text-lg leading-relaxed text-ink-light mb-8">
+                                    Scale is the most primal tool in a typographer's kit. It directs the eye immediately. Large text shouts; small text whispers. By manipulating scale, we create a map for the reader's attention.
+                                </p>
+                            </RevealText>
+                            
+                            <RevealText delay={0.2}>
+                                <div className="p-6 border border-ink/10 rounded-lg bg-white/40 backdrop-blur-sm">
+                                    <label className="block font-sans text-xs uppercase tracking-widest mb-4">Adjust Scale</label>
+                                    <input 
+                                        type="range" 
+                                        min="20" 
+                                        max="150" 
+                                        value={scale} 
+                                        onChange={(e) => setScale(e.target.value)} 
+                                        className="w-full"
+                                    />
+                                </div>
+                            </RevealText>
+                        </div>
+
+                        <div className="order-1 lg:order-2 flex justify-center items-center h-[50vh] bg-white/50 rounded-xl overflow-hidden relative border border-ink/5">
+                            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#1a1a1a_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <motion.div 
+                                className="font-serif leading-none text-center"
+                                style={{ fontSize: `${scale}px` }}
+                                layout
+                            >
+                                Ag
+                            </motion.div>
+                            <div className="absolute bottom-4 right-4 font-mono text-xs text-ink/40">
+                                {scale}px
+                            </div>
+                        </div>
+                    </div>
+                </Section>
+            );
+        };
+
+        const ChapterWeight = () => {
+            const [hoverWeight, setHoverWeight] = useState(100);
+            const containerRef = useRef(null);
+
+            const handleMouseMove = (e) => {
+                if (!containerRef.current) return;
+                const rect = containerRef.current.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x position within the element.
+                const width = rect.width;
+                // Map x (0 to width) to weight (100 to 900)
+                const newWeight = Math.floor(100 + (x / width) * 800);
+                setHoverWeight(newWeight);
+            };
+
+            return (
+                <Section>
+                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div className="lg:col-span-4 flex flex-col justify-center">
+                            <RevealText>
+                                <span className="font-sans text-accent text-sm font-semibold tracking-wider uppercase">Chapter 02: Weight</span>
+                                <h2 className="font-serif text-5xl mt-4 mb-6">The Gravity of Words</h2>
+                                <p className="font-sans text-lg leading-relaxed text-ink-light">
+                                    Weight adds physical presence to the abstract characters. Light weights feel airy, elegant, and ephemeral. Heavy weights feel grounded, urgent, and loud.
+                                    <br/><br/>
+                                    <span className="text-sm opacity-60">Move your cursor over the text area to feel the weight shift.</span>
+                                </p>
+                            </RevealText>
+                        </div>
+
+                        <div 
+                            ref={containerRef}
+                            onMouseMove={handleMouseMove}
+                            className="lg:col-span-8 min-h-[60vh] flex items-center justify-center bg-ink text-paper rounded-xl cursor-crosshair relative overflow-hidden p-8"
+                        >
+                            <motion.div 
+                                className="font-serif text-6xl md:text-8xl lg:text-9xl text-center leading-tight"
+                                animate={{ fontWeight: hoverWeight }}
+                                transition={{ type: "tween", duration: 0.1 }}
+                            >
+                                Emotion<br/>
+                                <span className="italic">Gravity</span><br/>
+                                Impact
+                            </motion.div>
+                            
+                            <div className="absolute bottom-4 left-4 font-mono text-xs text-paper/50">
+                                font-weight: {hoverWeight}
+                            </div>
+                        </div>
+                    </div>
+                </Section>
+            );
+        };
+
+        const ChapterRhythm = () => {
+            const [lineHeight, setLineHeight] = useState(1.5);
+            const [letterSpacing, setLetterSpacing] = useState(0);
+
+            return (
+                <Section>
+                    <div className="max-w-4xl mx-auto mb-12 text-center">
+                        <RevealText>
+                            <span className="font-sans text-accent text-sm font-semibold tracking-wider uppercase">Chapter 03: Rhythm & Micro-Typography</span>
+                            <h2 className="font-serif text-5xl mt-4">Breathing Room</h2>
+                        </RevealText>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+                        <div className="md:col-span-4 space-y-8">
+                            <RevealText delay={0.2}>
+                                <p className="font-sans text-md leading-relaxed text-ink-light">
+                                    Good typography is about the space <em>between</em> the notes. 
+                                    <strong> Leading</strong> (line-height) controls the tempo of reading. 
+                                    <strong> Tracking</strong> (letter-spacing) controls the texture.
+                                </p>
+                            </RevealText>
+                            
+                            <div className="p-6 bg-white border border-ink/5 rounded-lg shadow-sm">
+                                <div className="mb-6">
+                                    <label className="flex justify-between font-sans text-xs uppercase tracking-widest mb-2">
+                                        <span>Leading (Line Height)</span>
+                                        <span>{lineHeight}</span>
+                                    </label>
+                                    <input 
+                                        type="range" 
+                                        min="0.8" 
+                                        max="2.5" 
+                                        step="0.1"
+                                        value={lineHeight} 
+                                        onChange={(e) => setLineHeight(parseFloat(e.target.value))} 
+                                        className="w-full"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="flex justify-between font-sans text-xs uppercase tracking-widest mb-2">
+                                        <span>Tracking (Letter Spacing)</span>
+                                        <span>{letterSpacing}px</span>
+                                    </label>
+                                    <input 
+                                        type="range" 
+                                        min="-2" 
+                                        max="10" 
+                                        step="0.5"
+                                        value={letterSpacing} 
+                                        onChange={(e) => setLetterSpacing(parseFloat(e.target.value))} 
+                                        className="w-full"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="md:col-span-8 p-8 md:p-12 bg-white border-l-4 border-accent/20 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)]">
+                            <motion.div 
+                                className="font-serif text-xl md:text-2xl text-ink transition-all duration-300"
+                                style={{ 
+                                    lineHeight: lineHeight,
+                                    letterSpacing: `${letterSpacing}px` 
+                                }}
+                            >
+                                <p className="mb-4">
+                                    “In a well-made book, where designer, compositor and printer have all done their jobs, no matter how many thousands of lines and pages, the letters are alive. They dance in their seats. Sometimes they rise and dance in the margins and aisles.”
+                                </p>
+                                <p>
+                                    — Robert Bringhurst, <em>The Elements of Typographic Style</em>
+                                </p>
+                            </motion.div>
+                        </div>
+                    </div>
+                </Section>
+            );
+        };
+
+        const ChapterSilence = () => {
+            const ref = useRef(null);
+            const { scrollYProgress } = useScroll({
+                target: ref,
+                offset: ["start end", "end start"]
+            });
+            
+            const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+            const opacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 1, 0]);
+
+            return (
+                <div ref={ref} className="min-h-[150vh] relative flex items-center justify-center overflow-hidden bg-ink-light text-paper">
+                    <div className="absolute inset-0 opacity-20 pointer-events-none">
+                         {/* Abstract geometric shapes for background interest */}
+                         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full border border-paper/20"></div>
+                         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full border border-paper/10"></div>
+                    </div>
+
+                    <div className="text-center max-w-2xl px-6 relative z-10">
+                        <motion.div style={{ y, opacity }}>
+                            <h2 className="font-serif text-4xl md:text-6xl mb-8 font-light">
+                                Silence defines sound.
+                            </h2>
+                            <p className="font-sans text-lg md:text-xl font-light opacity-80 leading-relaxed">
+                                Negative space is not empty. It is active. It provides the pause that gives the content meaning. Without the white space, the black ink has no definition.
+                            </p>
+                        </motion.div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Conclusion = () => {
+            return (
+                <Section className="items-center text-center">
+                    <RevealText>
+                        <p className="font-sans text-sm tracking-[0.2em] uppercase mb-6 text-accent">The End</p>
+                    </RevealText>
+                    <RevealText delay={0.2}>
+                        <h1 className="font-serif text-5xl md:text-7xl max-w-4xl mx-auto leading-tight mb-12">
+                            Type is the clothes words wear.
+                        </h1>
+                    </RevealText>
+                    <RevealText delay={0.4}>
+                        <div className="flex flex-col items-center gap-4">
+                            <button 
+                                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                                className="group flex items-center gap-2 font-sans text-sm font-semibold border-b border-ink pb-1 hover:text-accent hover:border-accent transition-colors"
+                            >
+                                <span>Return to Top</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-y-1 transition-transform"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+                            </button>
+                        </div>
+                    </RevealText>
+                    
+                    <footer className="absolute bottom-6 w-full text-center text-xs font-sans text-ink/30">
+                        <p>Designed & Built for the Web. React + Tailwind + Framer Motion.</p>
+                    </footer>
+                </Section>
+            );
+        };
+
+        // --- Main App ---
+
+        const App = () => {
+            return (
+                <div className="w-full overflow-hidden selection:bg-accent selection:text-white">
+                    <ProgressBar />
+                    
+                    <main>
+                        <Hero />
+                        <div className="w-full h-[1px] bg-ink/10 mx-auto max-w-[90%]"></div>
+                        <ChapterScale />
+                        <div className="w-full h-[1px] bg-ink/10 mx-auto max-w-[90%]"></div>
+                        <ChapterWeight />
+                        <div className="w-full h-[1px] bg-ink/10 mx-auto max-w-[90%]"></div>
+                        <ChapterRhythm />
+                        <ChapterSilence />
+                        <Conclusion />
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

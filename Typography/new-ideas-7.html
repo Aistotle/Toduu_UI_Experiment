@@ -1,0 +1,726 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expressive Typography: A Visual Essay</title>
+    
+    <!-- Importing Libraries: GSAP for animations, Three.js for 3D, and Tailwind for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* --- Global Styles & Reset --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #f0f0f0;
+            --accent: #ff4757;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Typography & Utility Classes --- */
+        .font-display { font-family: 'Playfair Display', serif; }
+        .font-mono { font-family: 'Space Mono', monospace; }
+        
+        .section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid #222;
+        }
+
+        /* --- Section 1: The Canvas --- */
+        #hero-text {
+            font-size: 12vw;
+            line-height: 0.85;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            mix-blend-mode: exclusion;
+            z-index: 2;
+        }
+        
+        .cursor-blob {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,71,87,0.4) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            mix-blend-mode: screen;
+        }
+
+        /* --- Section 2: The Collision --- */
+        .collision-container {
+            position: relative;
+            width: 80%;
+            height: 60%;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+        .collision-word {
+            position: absolute;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 5rem;
+            opacity: 0.8;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        /* --- Section 3: The Haiku (Vertical) --- */
+        .vertical-text-wrapper {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 6vw;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5rem;
+        }
+        .vertical-text-wrapper span {
+            display: block;
+            opacity: 0; /* For staggered animation */
+        }
+
+        /* --- Section 4: The Warp (Distortion) --- */
+        .warp-text {
+            font-size: 8vw;
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 1px white;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        
+        /* --- Section 5: The Glitch --- */
+        .glitch {
+            font-size: 8vw;
+            font-weight: 900;
+            position: relative;
+            color: white;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip-path: inset(44% 0 61% 0);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip-path: inset(50% 0 30% 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 20% 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(80% 0 5% 0); }
+            40% { clip-path: inset(30% 0 20% 0); }
+            60% { clip-path: inset(10% 0 80% 0); }
+            80% { clip-path: inset(50% 0 30% 0); }
+            100% { clip-path: inset(20% 0 70% 0); }
+        }
+
+        /* --- Section 6: The Liquid (Canvas Text) --- */
+        #liquid-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .liquid-overlay {
+            z-index: 2;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px);
+        }
+
+        /* --- Section 7: The Shatter (3D) --- */
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .controls-3d {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+        .btn-3d {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 8px 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        .btn-3d:hover {
+            background: white;
+            color: black;
+        }
+
+        /* --- Section 8: The Noise (Grid) --- */
+        .grid-wall {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            width: 100%;
+            height: 100%;
+            gap: 1px;
+            background: #111;
+        }
+        .grid-cell {
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #333;
+            transition: color 0.2s, background 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+        .grid-cell:hover {
+            color: var(--accent);
+            background: #222;
+            transform: scale(1.1);
+            z-index: 2;
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.3);
+        }
+
+        /* --- Section 9: The End --- */
+        .finale {
+            font-size: 15vw;
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, #444, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 4s linear infinite;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* --- Scroll Indicator --- */
+        .scroll-down {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            z-index: 100;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Interactive Background Blob (Tracks Mouse) -->
+    <div id="cursor-blob" class="cursor-blob"></div>
+
+    <!-- SCROLL DOWN INDICATOR -->
+    <div class="scroll-down">SCROLL TO EXPLORE ↓</div>
+
+    <!-- SECTION 1: IDENTITY -->
+    <section class="section" id="s1">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiMzMzMiLz48L3N2Zz4=')] opacity-20"></div>
+        <div class="container relative z-10 text-center mix-blend-difference">
+            <h1 id="hero-text" class="font-display">Identity<br>Is Fluid.</h1>
+            <p class="mt-4 font-mono text-sm text-white tracking-widest uppercase opacity-0" id="hero-sub">A visual exploration of form</p>
+        </div>
+    </section>
+
+    <!-- SECTION 2: COLLISION -->
+    <section class="section bg-black" id="s2">
+        <div class="collision-container" id="collision-box">
+            <div class="collision-word text-white" style="top: 10%; left: 5%;">CHAOS</div>
+            <div class="collision-word text-white" style="top: 40%; right: 5%;">ORDER</div>
+            <div class="collision-word text-[var(--accent)]" style="bottom: 20%; left: 20%; font-size: 8rem; opacity: 0.5;">?</div>
+        </div>
+        <div class="absolute bottom-10 left-10 font-mono text-xs text-white/50">
+            HOVER TO COLLIDE
+        </div>
+    </section>
+
+    <!-- SECTION 3: HAIKU -->
+    <section class="section bg-[#111]" id="s3">
+        <div class="flex items-center gap-20 overflow-hidden">
+            <div class="vertical-text-wrapper text-white/20" id="v-text-1">
+                <span>W</span><span>O</span><span>R</span><span>D</span><span>S</span><span>&nbsp;</span><span>F</span><span>A</span><span>L</span><span>L</span>
+            </div>
+            <div class="vertical-text-wrapper text-white" id="v-text-2">
+                <span>L</span><span>I</span><span>K</span><span>E</span><span>&nbsp;</span><span>R</span><span>A</span><span>I</span><span>N</span>
+            </div>
+            <div class="vertical-text-wrapper text-[var(--accent)]" id="v-text-3">
+                <span>D</span><span>R</span><span>O</span><span>P</span><span>B</span><span>Y</span><span>&nbsp;</span><span>D</span><span>R</span><span>O</span><span>P</span>
+            </div>
+        </div>
+        <div class="absolute bottom-10 font-mono text-xs text-white/50">SCROLL TO READ</div>
+    </section>
+
+    <!-- SECTION 4: THE WARP -->
+    <section class="section bg-[#050505]" id="s4">
+        <div class="warp-text-container perspective-[1000px]">
+            <div class="warp-text font-display italic">PERSPECTIVE</div>
+            <div class="warp-text font-display italic mt-4 text-white/50 transform rotate-x-45">SHIFTS</div>
+        </div>
+        <div class="absolute top-10 right-10 font-mono text-xs text-white/50">MOVE CURSOR</div>
+    </section>
+
+    <!-- SECTION 5: THE GLITCH -->
+    <section class="section bg-black" id="s5">
+        <div class="glitch font-display" data-text="ERROR">ERROR</div>
+        <div class="absolute bottom-10 left-10 font-mono text-xs text-white/50">
+            SIGNAL CORRUPTION DETECTED
+        </div>
+    </section>
+
+    <!-- SECTION 6: THE LIQUID -->
+    <section class="section bg-white" id="s6">
+        <canvas id="liquid-canvas"></canvas>
+        <div class="liquid-overlay absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <span class="text-black font-mono text-4xl font-bold tracking-tighter">D</span>
+            <span class="text-black font-mono text-4xl font-bold tracking-tighter">I</span>
+            <span class="text-black font-mono text-4xl font-bold tracking-tighter">S</span>
+            <span class="text-black font-mono text-4xl font-bold tracking-tighter">S</span>
+            <span class="text-black font-mono text-4xl font-bold tracking-tighter">O</span>
+            <span class="text-black font-mono text-4xl font-bold tracking-tighter">L</span>
+            <span class="text-black font-mono text-4xl font-bold tracking-tighter">V</span>
+            <span class="text-black font-mono text-4xl font-bold tracking-tighter">E</span>
+        </div>
+    </section>
+
+    <!-- SECTION 7: THE SHATTER (3D) -->
+    <section class="section bg-[#080808]" id="s7">
+        <canvas id="three-canvas"></canvas>
+        <div class="controls-3d">
+            <button class="btn-3d" onclick="shatterText()">SHATTER</button>
+            <button class="btn-3d" onclick="resetText()">RESET</button>
+        </div>
+        <div class="absolute bottom-10 right-10 font-mono text-xs text-white/50 z-10">WEBGL • THREE.JS</div>
+    </section>
+
+    <!-- SECTION 8: THE NOISE -->
+    <section class="section bg-black" id="s8">
+        <div class="grid-wall" id="grid-wall">
+            <!-- Cells injected via JS -->
+        </div>
+        <div class="absolute top-10 left-10 font-mono text-xs text-white/50 z-10 bg-black/50 p-2">GRID SYSTEM</div>
+    </section>
+
+    <!-- SECTION 9: THE FINALE -->
+    <section class="section bg-black" id="s9">
+        <div class="finale font-display">FIN</div>
+        <p class="font-mono text-white/50 mt-4">END OF TRANSMISSION</p>
+    </section>
+
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        // --- GSAP REGISTRATION ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- 1. MOUSE FOLLOWER BLOB ---
+        const blob = document.getElementById('cursor-blob');
+        let mouseX = 0, mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Smooth lerp effect
+            gsap.to(blob, {
+                x: mouseX,
+                y: mouseY,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+            
+            // Update warp text perspective
+            if(window.scrollY > document.getElementById('s4').offsetTop - 500 && window.scrollY < document.getElementById('s4').offsetTop + 500) {
+                const warpTexts = document.querySelectorAll('.warp-text');
+                const x = (e.clientX / window.innerWidth - 0.5) * 50;
+                const y = (e.clientY / window.innerHeight - 0.5) * 50;
+                warpTexts.forEach(t => {
+                    t.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+                });
+            }
+        });
+
+        // --- 2. HERO ANIMATION (SECTION 1) ---
+        const tlHero = gsap.timeline();
+        tlHero.to("#hero-text", { 
+            scale: 1.1, 
+            duration: 2, 
+            ease: "power1.inOut" 
+        })
+        .to("#hero-sub", { opacity: 1, duration: 1 }, "-=1")
+        .to("#hero-text", { 
+            opacity: 0.2, 
+            scale: 0.9,
+            scrollTrigger: {
+                trigger: "#s1",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // --- 3. COLLISION INTERACTION (SECTION 2) ---
+        const collisionBox = document.getElementById('collision-box');
+        const collisionWords = document.querySelectorAll('.collision-word');
+        
+        collisionBox.addEventListener('mousemove', (e) => {
+            const rect = collisionBox.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const xCenter = rect.width / 2;
+            const yCenter = rect.height / 2;
+            
+            collisionWords.forEach((word, index) => {
+                const force = (index + 1) * 20;
+                const moveX = (x - xCenter) / 20 * force;
+                const moveY = (y - yCenter) / 20 * force;
+                
+                gsap.to(word, {
+                    x: moveX,
+                    y: moveY,
+                    rotation: moveX / 10,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // --- 4. VERTICAL HAIKU STAGGER (SECTION 3) ---
+        const haikuLines = ["#v-text-1", "#v-text-2", "#v-text-3"];
+        haikuLines.forEach((line, i) => {
+            gsap.to(`${line} span`, {
+                opacity: 1,
+                y: 0,
+                duration: 0.5,
+                stagger: 0.05,
+                scrollTrigger: {
+                    trigger: "#s3",
+                    start: "top 70%",
+                    end: "center center",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // --- 5. LIQUID CANVAS (SECTION 6) ---
+        const lCanvas = document.getElementById('liquid-canvas');
+        const lCtx = lCanvas.getContext('2d');
+        let lWidth, lHeight;
+        let particles = [];
+
+        function resizeLiquid() {
+            lWidth = lCanvas.width = lCanvas.offsetWidth;
+            lHeight = lCanvas.height = lCanvas.offsetHeight;
+        }
+
+        class LiquidParticle {
+            constructor() {
+                this.x = Math.random() * lWidth;
+                this.y = Math.random() * lHeight;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 4 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if(this.x < 0 || this.x > lWidth) this.vx *= -1;
+                if(this.y < 0 || this.y > lHeight) this.vy *= -1;
+            }
+            draw() {
+                lCtx.beginPath();
+                lCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                lCtx.fillStyle = 'rgba(0,0,0,0.3)';
+                lCtx.fill();
+            }
+        }
+
+        function initLiquid() {
+            particles = [];
+            for(let i=0; i<100; i++) particles.push(new LiquidParticle());
+            animateLiquid();
+        }
+
+        function animateLiquid() {
+            if(!document.getElementById('s6')) return;
+            lCtx.clearRect(0, 0, lWidth, lHeight);
+            
+            // Draw connecting lines
+            for(let i=0; i<particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                for(let j=i; j<particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if(dist < 100) {
+                        lCtx.beginPath();
+                        lCtx.strokeStyle = `rgba(0,0,0,${1 - dist/100})`;
+                        lCtx.lineWidth = 1;
+                        lCtx.moveTo(particles[i].x, particles[i].y);
+                        lCtx.lineTo(particles[j].x, particles[j].y);
+                        lCtx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateLiquid);
+        }
+
+        // Initialize liquid when visible
+        ScrollTrigger.create({
+            trigger: "#s6",
+            onEnter: () => {
+                resizeLiquid();
+                initLiquid();
+            },
+            onLeave: () => { /* Stop if needed */ }
+        });
+        window.addEventListener('resize', () => {
+            if(document.getElementById('s6')) resizeLiquid();
+        });
+
+        // --- 6. THREE.JS 3D TEXT (SECTION 7) ---
+        let scene, camera, renderer, textMesh, geometryGroup;
+        const tCanvas = document.getElementById('three-canvas');
+        
+        function initThree() {
+            scene = new THREE.Scene();
+            // Fog for depth
+            scene.fog = new THREE.FogExp2(0x080808, 0.002);
+
+            camera = new THREE.PerspectiveCamera(75, tCanvas.offsetWidth / tCanvas.offsetHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            renderer = new THREE.WebGLRenderer({ canvas: tCanvas, alpha: true, antialias: true });
+            renderer.setSize(tCanvas.offsetWidth, tCanvas.offsetHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xff4757, 1);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            // Create Text Geometry (Simulated by box particles)
+            geometryGroup = new THREE.Group();
+            const textString = "TYPE";
+            const fontSize = 1.5;
+            // Simple particle representation of text (since loading fonts is heavy)
+            // We create a block of particles
+            for(let i=0; i<200; i++) {
+                const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: 0xffffff,
+                    shininess: 100,
+                    specular: 0x555555
+                });
+                const mesh = new THREE.Mesh(geometry, material);
+                
+                // Random positions within a word shape (approximation)
+                const x = (Math.random() - 0.5) * 4;
+                const y = (Math.random() - 0.5) * 1.5;
+                const z = (Math.random() - 0.5) * 1;
+                
+                // Store initial positions
+                mesh.userData = { ix: x, iy: y, iz: z, vx: 0, vy: 0, vz: 0 };
+                mesh.position.set(x, y, z);
+                
+                geometryGroup.add(mesh);
+            }
+            scene.add(geometryGroup);
+
+            // Mouse interaction for ThreeJS
+            let threeMouseX = 0;
+            let threeMouseY = 0;
+            document.addEventListener('mousemove', (e) => {
+                if(window.scrollY > document.getElementById('s7').offsetTop - 500 && window.scrollY < document.getElementById('s7').offsetTop + 500) {
+                    threeMouseX = (e.clientX - window.innerWidth / 2) / 200;
+                    threeMouseY = (e.clientY - window.innerHeight / 2) / 200;
+                    if(geometryGroup) {
+                        geometryGroup.rotation.x = threeMouseY * 0.5;
+                        geometryGroup.rotation.y = threeMouseX * 0.5;
+                    }
+                }
+            });
+
+            animateThree();
+        }
+
+        function animateThree() {
+            if(!renderer) return;
+            requestAnimationFrame(animateThree);
+            
+            // Float animation
+            if(geometryGroup) {
+                const time = Date.now() * 0.001;
+                geometryGroup.children.forEach((mesh, i) => {
+                    if(mesh.userData.iz === 0) { // If not shattered
+                        mesh.position.y = mesh.userData.iy + Math.sin(time + i) * 0.02;
+                    } else {
+                        // Physics simulation for shatter
+                        mesh.position.x += mesh.userData.vx;
+                        mesh.position.y += mesh.userData.vy;
+                        mesh.position.z += mesh.userData.vz;
+                        mesh.userData.vy -= 0.005; // Gravity
+                        mesh.rotation.x += mesh.userData.vx * 0.1;
+                        mesh.rotation.y += mesh.userData.vy * 0.1;
+                    }
+                });
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        window.shatterText = function() {
+            if(!geometryGroup) return;
+            geometryGroup.children.forEach(mesh => {
+                mesh.userData.vx = (Math.random() - 0.5) * 0.5;
+                mesh.userData.vy = (Math.random() - 0.5) * 0.5 + 0.3; // Upward burst
+                mesh.userData.vz = (Math.random() - 0.5) * 0.5;
+            });
+        };
+
+        window.resetText = function() {
+            if(!geometryGroup) return;
+            geometryGroup.children.forEach(mesh => {
+                gsap.to(mesh.position, {
+                    x: mesh.userData.ix,
+                    y: mesh.userData.iy,
+                    z: mesh.userData.iz,
+                    duration: 1.5,
+                    ease: "elastic.out(1, 0.3)"
+                });
+                mesh.userData.vx = 0;
+                mesh.userData.vy = 0;
+                mesh.userData.vz = 0;
+                mesh.rotation.set(0,0,0);
+            });
+        };
+
+        ScrollTrigger.create({
+            trigger: "#s7",
+            onEnter: () => {
+                if(!scene) initThree();
+            }
+        });
+        window.addEventListener('resize', () => {
+            if(renderer && camera) {
+                camera.aspect = tCanvas.offsetWidth / tCanvas.offsetHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(tCanvas.offsetWidth, tCanvas.offsetHeight);
+            }
+        });
+
+        // --- 7. GRID NOISE (SECTION 8) ---
+        const gridContainer = document.getElementById('grid-wall');
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+        // Create 50 cells
+        for(let i=0; i<50; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'grid-cell';
+            const char = chars[Math.floor(Math.random() * chars.length)];
+            cell.textContent = char;
+            cell.addEventListener('mouseenter', () => {
+                cell.textContent = chars[Math.floor(Math.random() * chars.length)];
+                cell.style.letterSpacing = Math.random() * 5 + "px";
+            });
+            cell.addEventListener('mouseleave', () => {
+                cell.textContent = char;
+                cell.style.letterSpacing = "0px";
+            });
+            gridContainer.appendChild(cell);
+        }
+
+        // --- 8. SCROLL ANIMATIONS FOR ALL SECTIONS ---
+        // General reveal for text elements
+        gsap.utils.toArray('section h1, section p, section .warp-text, .finale').forEach(el => {
+            if(el.closest('#s8')) return; // Skip grid
+            gsap.from(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+
+        // Glitch Section Trigger
+        ScrollTrigger.create({
+            trigger: "#s5",
+            start: "top center",
+            onEnter: () => {
+                document.querySelector('.glitch').style.textShadow = "2px 0 red, -2px 0 blue";
+            },
+            onLeaveBack: () => {
+                document.querySelector('.glitch').style.textShadow = "none";
+            }
+        });
+
+    </script>
+</body>
+</html>

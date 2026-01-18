@@ -1,0 +1,96 @@
+:root {
+  --bg:#f8f8f8;
+  --ink:#111;
+  --max-line:68ch;
+
+  /* V3 Typography Lab tokens */
+  --v3-bg: #FFFFFF;
+  --v3-accent: #FFD700;
+  --v3-text: #1A1A1A;
+}
+.typography-prose p { max-width: var(--max-line); }
+@keyframes jitter-var {
+  0% { transform: translate(var(--jitter-x, 0px), var(--jitter-y, 0px)); }
+  100% { transform: translate(calc(var(--jitter-x, 0px) * -1), calc(var(--jitter-y, 0px) * -1)); }
+}
+.jitter-var {
+  animation: jitter-var 60ms steps(1, end) infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .jitter-var { animation: none !important; }
+}
+.squish-noise {
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255,255,255,0.1) 8%, transparent 35%);
+  background-size: 120px 120px;
+  mix-blend-mode: screen;
+  animation: squish-noise-flicker 800ms steps(2, end) infinite;
+}
+@keyframes squish-noise-flicker {
+  0% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(-6px,3px,0); }
+  100% { transform: translate3d(4px,-5px,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .squish-noise { animation: none !important; }
+}
+/* Variable helpers */
+.var-frail { font-family: 'Fraunces', serif; font-variation-settings: "wght" 200, "opsz" 36; letter-spacing: .02em; }
+.var-heavy { font-family: 'Fraunces', serif; font-variation-settings: "wght" 900, "opsz" 72; letter-spacing: -.01em; }
+
+/* [PA-1] ensure placeholder stems stay visible in high-contrast modes */
+@media (forced-colors: active) {
+  .missing-slot-stem,
+  .missing-slot-dot {
+    background: CanvasText !important;
+    forced-color-adjust: none;
+  }
+}
+
+/* Interactive gallery helpers */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.clock-hand-hour,
+.clock-hand-minute {
+  transform-origin: bottom center;
+}
+
+.clock-hand-hour {
+  animation: tick-tock-hour 12s linear infinite;
+}
+
+.clock-hand-minute {
+  animation: tick-tock-minute 2s linear infinite;
+}
+
+@keyframes tick-tock-hour {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tick-tock-minute {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.tsunami-wave {
+  animation: wave 4s ease-in-out infinite alternate;
+}
+
+@keyframes wave {
+  0% {
+    d: path("M 10 80 C 40 20, 60 20, 90 80 S 140 140, 190 80");
+  }
+  100% {
+    d: path("M 10 80 C 40 140, 60 140, 90 80 S 140 20, 190 80");
+  }
+}

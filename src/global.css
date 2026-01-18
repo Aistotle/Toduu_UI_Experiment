@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design System Tokens
+ * Prefix: --ds-
+ */
+
+@layer base {
+  :root {
+    /* Colors */
+    --ds-bg: #F7F6F3;
+    --ds-surface: #FFFFFF;
+    --ds-ink: #1F1B16;
+    --ds-ink-muted: #6E6A62;
+    --ds-accent: #047857;
+    --ds-accent-completed: #22C55E;
+
+    /* Typography */
+    --ds-font-sans: 'Inter', system-ui, sans-serif;
+    --ds-font-serif: 'Lora', Georgia, serif;
+
+    /* Radius */
+    --ds-radius-sm: 8px;
+    --ds-radius-md: 12px;
+    --ds-radius-lg: 16px;
+
+    /* Shadows */
+    --ds-shadow-1: 0 1px 1px rgba(18, 16, 11, 0.06), 0 2px 4px rgba(18, 16, 11, 0.04);
+    --ds-shadow-2: 0 2px 4px rgba(18, 16, 11, 0.08), 0 4px 12px rgba(18, 16, 11, 0.06);
+    --ds-shadow-3: 0 4px 8px rgba(18, 16, 11, 0.10), 0 8px 24px rgba(18, 16, 11, 0.08);
+
+    /* Motion */
+    --ds-ease: cubic-bezier(0.32, 0.72, 0, 1);
+    --ds-duration-fast: 150ms;
+    --ds-duration-normal: 250ms;
+    --ds-duration-slow: 400ms;
+  }
+
+  /* Base styles */
+  body {
+    font-family: var(--ds-font-sans);
+    background-color: var(--ds-bg);
+    color: var(--ds-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom selection — accent green for that "care was taken" feeling */
+  ::selection {
+    background-color: var(--ds-accent);
+    color: white;
+  }
+}
+
+/* Grain texture overlay — warm paper feeling */
+.grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Essence page animations */
+
+/* Breathing animation — slow, synchronized, calming */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(0.97);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+.animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* Wobble animation — gentle stir, like nudging a sleeping seed */
+@keyframes wobble {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-wobble {
+  animation: wobble 400ms var(--ds-ease);
+}
+
+/* Drop animation — physics-based fall with overshoot */
+@keyframes drop {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(calc(100% + 10px)) rotate(-3deg);
+  }
+  75% {
+    transform: translateY(calc(100% - 5px)) rotate(1deg);
+  }
+  100% {
+    transform: translateY(100%) rotate(0deg);
+  }
+}
+
+.animate-drop {
+  animation: drop 500ms var(--ds-ease) forwards;
+}
+
+/* Rise animation — gentle ascent for new elements */
+@keyframes rise {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-rise {
+  animation: rise 1000ms var(--ds-ease) forwards;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
