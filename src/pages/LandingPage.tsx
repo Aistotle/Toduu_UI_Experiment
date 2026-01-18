@@ -45,20 +45,20 @@ export function LandingPage() {
         <AsciiSection />
 
         {/* Experimental footer section */}
-        <section className="py-32 bg-gradient-to-b from-amber-400 via-orange-500 to-rose-600">
+        <section className="py-40 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600">
           <div className="max-w-4xl mx-auto px-8 text-center">
-            <h2 className="text-5xl font-bold text-white mb-6 font-display drop-shadow-lg">
-              Built for Momentum
+            <h2 className="text-6xl font-bold text-white mb-8 font-display drop-shadow-lg">
+              Flow State Awaits
             </h2>
-            <p className="text-xl text-white/90 mb-8 leading-relaxed">
-              Every task completed builds on the last. Watch your progress compound.
+            <p className="text-2xl text-white/90 mb-10 leading-relaxed max-w-2xl mx-auto">
+              Clear your mind. One task at a time. Find your rhythm.
             </p>
-            <div className="flex gap-4 justify-center">
-              <button className="px-8 py-4 bg-white text-orange-600 font-semibold rounded-full hover:scale-105 transition-transform shadow-lg">
-                Start Building
+            <div className="flex gap-6 justify-center">
+              <button className="px-10 py-5 bg-white text-teal-600 font-bold rounded-full hover:scale-105 transition-transform shadow-xl text-lg">
+                Enter Flow
               </button>
-              <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white/20 transition-colors">
-                See How It Works
+              <button className="px-10 py-5 border-2 border-white text-white font-bold rounded-full hover:bg-white/20 transition-colors text-lg">
+                Watch Demo
               </button>
             </div>
           </div>
