@@ -93,6 +93,16 @@ export function LandingPage() {
           </div>
         </section>
 
+        {/* Testimonial quote */}
+        <section className="py-16 bg-stone-100">
+          <div className="max-w-3xl mx-auto px-8 text-center">
+            <blockquote className="text-2xl text-stone-600 italic font-display leading-relaxed">
+              "Finally, a tool that respects my attention instead of demanding it."
+            </blockquote>
+            <p className="mt-6 text-stone-500">— A focused user</p>
+          </div>
+        </section>
+
         {/* Experimental footer section */}
         <section className="py-36 bg-gradient-to-tr from-slate-900 via-purple-900 to-slate-900">
           <div className="max-w-4xl mx-auto px-8 text-center">
