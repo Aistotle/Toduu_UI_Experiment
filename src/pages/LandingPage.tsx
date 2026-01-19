@@ -44,6 +44,29 @@ export function LandingPage() {
 
         <AsciiSection />
 
+        {/* Social proof section */}
+        <section className="py-24 bg-stone-50">
+          <div className="max-w-5xl mx-auto px-8">
+            <p className="text-center text-stone-400 text-sm uppercase tracking-widest mb-12">
+              Trusted by focused minds
+            </p>
+            <div className="grid grid-cols-3 gap-8 text-center">
+              <div>
+                <p className="text-4xl font-bold text-stone-800 mb-2">12K+</p>
+                <p className="text-stone-500">Active users</p>
+              </div>
+              <div>
+                <p className="text-4xl font-bold text-stone-800 mb-2">98%</p>
+                <p className="text-stone-500">Completion rate</p>
+              </div>
+              <div>
+                <p className="text-4xl font-bold text-stone-800 mb-2">4.9</p>
+                <p className="text-stone-500">User rating</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Experimental footer section */}
         <section className="py-36 bg-gradient-to-tr from-slate-900 via-purple-900 to-slate-900">
           <div className="max-w-4xl mx-auto px-8 text-center">
