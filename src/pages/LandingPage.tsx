@@ -67,6 +67,32 @@ export function LandingPage() {
           </div>
         </section>
 
+        {/* How it works section */}
+        <section className="py-20 bg-white">
+          <div className="max-w-4xl mx-auto px-8">
+            <h3 className="text-3xl font-display text-stone-800 text-center mb-16">
+              Three steps to clarity
+            </h3>
+            <div className="flex justify-between items-start gap-12">
+              <div className="flex-1 text-center">
+                <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
+                <p className="text-stone-700 font-medium">Capture</p>
+                <p className="text-stone-500 text-sm mt-1">Write it down, let it go</p>
+              </div>
+              <div className="flex-1 text-center">
+                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
+                <p className="text-stone-700 font-medium">Focus</p>
+                <p className="text-stone-500 text-sm mt-1">One thing at a time</p>
+              </div>
+              <div className="flex-1 text-center">
+                <div className="w-12 h-12 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
+                <p className="text-stone-700 font-medium">Complete</p>
+                <p className="text-stone-500 text-sm mt-1">Feel the momentum</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Experimental footer section */}
         <section className="py-36 bg-gradient-to-tr from-slate-900 via-purple-900 to-slate-900">
           <div className="max-w-4xl mx-auto px-8 text-center">
