@@ -1,0 +1,6 @@
+# gitslip:start
+# GitSlip Preview URLs
+When user creates a PR or pushes code, remind them:
+- Preview URL: https://toduu-ui-experiment.gitslip.com
+- Branch preview: https://{branch}.toduu-ui-experiment.gitslip.com
+# gitslip:end
